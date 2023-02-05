@@ -1,0 +1,3 @@
+<items gfxroot="gfx/items/" version="1">
+  <active id="1000" cache="tearflag tearcolor firedelay" description="Lágrimas congelantes" gfx="true_ice_heart.png" maxcharges="110" name="True Ice Bow" chargetype="timed" quality="4" />
+</items>

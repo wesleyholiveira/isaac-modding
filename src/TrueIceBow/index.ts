@@ -9,15 +9,13 @@ export default function (mod: Mod, saveManager: SaveDataManager): void {
     postInputAction,
     postPlayerUpdate,
     postTearUpdate,
-    postGameEnd,
   } = callbacks;
 
-  saveManager.saveDataManager("trueIceBowTearsDelay", playerState);
+  saveManager.saveDataManager("playerState", playerState);
 
   postGameStarted(mod);
   postUseItem(mod);
   postInputAction(mod);
   postPlayerUpdate(mod);
   postTearUpdate(mod);
-  postGameEnd(mod);
 }

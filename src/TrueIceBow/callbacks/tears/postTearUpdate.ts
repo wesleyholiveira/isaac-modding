@@ -16,7 +16,7 @@ function main(tear: EntityTear) {
 
   if (
     parent?.Type === EntityType.FAMILIAR &&
-    player.HasCollectible(CollectibleTypeCustom["TRUE_ICE_BOW"]!)
+    player.HasCollectible(CollectibleTypeCustom.TRUE_ICE_BOW)
   ) {
     const familiar = parent.ToFamiliar();
 

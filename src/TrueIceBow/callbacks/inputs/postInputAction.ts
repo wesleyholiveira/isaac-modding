@@ -27,7 +27,6 @@ function main(
       buttonAction === ButtonAction.SHOOT_UP ||
       buttonAction === ButtonAction.SHOOT_DOWN
     ) {
-      // Isaac.GetPlayer().DischargeActiveItem();
       return false;
     }
   } else {

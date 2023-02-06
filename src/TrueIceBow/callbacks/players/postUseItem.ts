@@ -1,4 +1,9 @@
-import { CollectibleType, ModCallback } from "isaac-typescript-definitions";
+import {
+  CollectibleAnimation,
+  CollectibleType,
+  ModCallback,
+  PlayerItemAnimation,
+} from "isaac-typescript-definitions";
 import { CollectibleTypeCustom } from "../../enums/CollectibleTypeCustom";
 import { playerState } from "../../states/playerState";
 
@@ -7,7 +12,7 @@ export function postUseItem(mod: Mod): void {
   mod.AddCallback(
     ModCallback.POST_USE_ITEM,
     postUseTrueIceBowCallback,
-    CollectibleTypeCustom["TRUE_ICE_BOW"],
+    CollectibleTypeCustom.TRUE_ICE_BOW,
   );
 }
 
@@ -21,14 +26,22 @@ function postUseTrueIceBowCallback(
   const { isUsingTrueIceIceBow } = playerState.room;
 
   if (!isUsingTrueIceIceBow) {
-    player.PlayExtraAnimation("LiftItem");
+    player.AnimateCollectible(
+      CollectibleTypeCustom.TRUE_ICE_BOW,
+      PlayerItemAnimation.LIFT_ITEM,
+      CollectibleAnimation.PLAYER_PICKUP_SPARKLE,
+    );
+
     playerState.room.isUsingTrueIceIceBow = true;
 
     return defaultReturn;
   }
 
-  player.StopExtraAnimation();
-  player.PlayExtraAnimation("HideItem");
+  player.AnimateCollectible(
+    CollectibleTypeCustom.TRUE_ICE_BOW,
+    PlayerItemAnimation.HIDE_ITEM,
+    CollectibleAnimation.PLAYER_PICKUP_SPARKLE,
+  );
 
   playerState.room.isUsingTrueIceIceBow = false;
   return defaultReturn;

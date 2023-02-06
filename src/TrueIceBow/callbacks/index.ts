@@ -1,4 +1,3 @@
-export { postGameEnd } from "./game/postGameEnd";
 export { postGameStarted } from "./game/postGameStarted";
 export { postInputAction } from "./inputs/postInputAction";
 export { postPlayerUpdate } from "./players/postPlayerUpdate";

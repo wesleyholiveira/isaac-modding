@@ -8,7 +8,6 @@ export default function (mod: Mod, saveManager: SaveDataManager): void {
     postUseItem,
     postInputAction,
     postPlayerUpdate,
-    postPickupCollectibleUpdate,
     postTearUpdate,
     postGameEnd,
   } = callbacks;
@@ -19,7 +18,6 @@ export default function (mod: Mod, saveManager: SaveDataManager): void {
   postUseItem(mod);
   postInputAction(mod);
   postPlayerUpdate(mod);
-  postPickupCollectibleUpdate(mod);
   postTearUpdate(mod);
   postGameEnd(mod);
 }

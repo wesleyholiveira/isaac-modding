@@ -1,4 +1,10 @@
-import { Direction, ModCallback } from "isaac-typescript-definitions";
+import {
+  Direction,
+  ModCallback,
+  NullItemID,
+} from "isaac-typescript-definitions";
+import { CollectibleTypeCustom } from "../../enums/CollectibleTypeCustom";
+import { NullItemIdTypeCustom } from "../../enums/NullItemIdTypeCustom";
 import { trueIceBowEffect } from "../../items/active/effect";
 import { playerState } from "../../states/playerState";
 
@@ -24,6 +30,13 @@ export function postPlayerUpdate(mod: Mod): void {
  */
 function postUpdateUsingTrueIceBowCallback(player: EntityPlayer) {
   const currentFrame = Game().GetFrameCount();
+
+  // Adiciona/remove costume quando o item for adicionado no "inventário".
+  addAndRemoveCostumeOnPickupCollectible(
+    player,
+    NullItemIdTypeCustom.TRUE_ICE_BOW_COSTUME,
+    playerState.persistent.collectedItem,
+  );
 
   if (playerState.room.isUsingTrueIceIceBow) {
     const sprite = player.GetSprite();
@@ -59,5 +72,21 @@ function postUpdateUsingTrueIceBowCallback(player: EntityPlayer) {
     }
 
     playerState.room.currentFrame = currentFrame;
+  }
+}
+
+function addAndRemoveCostumeOnPickupCollectible(
+  player: EntityPlayer,
+  costumeId: NullItemID,
+  collectedItem: boolean,
+) {
+  if (player.HasCollectible(CollectibleTypeCustom["TRUE_ICE_BOW"]!)) {
+    if (!collectedItem) {
+      player.AddNullCostume(costumeId);
+      playerState.persistent.collectedItem = true;
+    }
+  } else {
+    player.TryRemoveNullCostume(costumeId);
+    playerState.persistent.collectedItem = false;
   }
 }

@@ -3,9 +3,9 @@ import {
   InputHook,
   ModCallback,
 } from "isaac-typescript-definitions";
-import { playerState } from "../states/playerState";
+import { playerState } from "../../states/playerState";
 
-export function postInputAction(mod: Mod) {
+export function postInputAction(mod: Mod): void {
   mod.AddCallback(ModCallback.INPUT_ACTION, main, InputHook.IS_ACTION_PRESSED);
 }
 
@@ -27,6 +27,7 @@ function main(
       buttonAction === ButtonAction.SHOOT_UP ||
       buttonAction === ButtonAction.SHOOT_DOWN
     ) {
+      // Isaac.GetPlayer().DischargeActiveItem();
       return false;
     }
   } else {

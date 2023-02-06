@@ -26,9 +26,7 @@ const GetCosMovementAngle = (coords: string): number => {
  *
  * @param player Parâmetro que contém a entidade do jogador para efetuar os disparos de lágrimas.
  * @param fovAngle Cone de visão do arco (em graus).
- * @param softCapIsaac Limite teórico de disparos por segundo permitido pelo jogo (de forma
- *                     natural).
- * @param tearsDefault
+ * @param tearsDefault Quantidade de lágrimas congelantes por padrão.
  * @param capIceTears Limite máximo de lágrimas congelantes que podem serem disparas.
  * @param shotSpeed Velocidade a qual as lágrimas congelantes se locomovem ao serem disparadas.
  */
@@ -65,8 +63,6 @@ export function trueIceBowEffect(
   const strCoords = `${X},${Y}`;
   const angle = GetCosMovementAngle(strCoords);
   const coords = [angle];
-
-  player.DischargeActiveItem();
 
   for (let i = stepAngle; i <= medianAngle; i += stepAngle) {
     const curAngle = angle + i;

@@ -1,6 +1,6 @@
 import { Direction, ModCallback } from "isaac-typescript-definitions";
-import { trueIceBowEffect } from "../items/active/effect";
-import { playerState } from "../states/playerState";
+import { trueIceBowEffect } from "../../items/active/effect";
+import { playerState } from "../../states/playerState";
 
 const MovementDirections = {
   [Direction.UP]: "WalkUp",
@@ -26,8 +26,10 @@ function postUpdateUsingTrueIceBowCallback(player: EntityPlayer) {
   const currentFrame = Game().GetFrameCount();
 
   if (playerState.room.isUsingTrueIceIceBow) {
-    const animation = player.GetSprite().GetAnimation();
+    const sprite = player.GetSprite();
+    const animation = sprite.GetAnimation();
     const currentDirection = player.GetMovementDirection();
+    const twinPlayer = player.GetMainTwin();
 
     if (animation !== "LiftItem") {
       if (
@@ -37,14 +39,17 @@ function postUpdateUsingTrueIceBowCallback(player: EntityPlayer) {
       ) {
         const movementAnimation = MovementDirections[currentDirection];
 
-        player.PlayExtraAnimation(`Pickup${movementAnimation}`);
+        if (twinPlayer.SubType === player.SubType) {
+          player.PlayExtraAnimation(`Pickup${movementAnimation}`);
+        }
 
         playerState.room.currentFrame = currentFrame;
         playerState.room.currentDirection = currentDirection;
       }
 
-      if (player.GetShootingJoystick().Length() > 0.1) {
+      if (player.GetShootingJoystick().Length() > 0.0) {
         player.StopExtraAnimation();
+        twinPlayer.DischargeActiveItem();
 
         playerState.room.isUsingTrueIceIceBow = false;
         playerState.room.transientState = true;

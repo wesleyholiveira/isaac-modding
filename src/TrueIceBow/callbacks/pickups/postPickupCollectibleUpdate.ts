@@ -1,9 +1,9 @@
 import { ModCallback, PickupVariant } from "isaac-typescript-definitions";
-import { CollectibleTypeCustom } from "../enums/CollectibleTypeCustom";
-import { NullItemIdTypeCustom } from "../enums/NullItemIdTypeCustom";
-import { playerState } from "../states/playerState";
+import { CollectibleTypeCustom } from "../../enums/CollectibleTypeCustom";
+import { NullItemIdTypeCustom } from "../../enums/NullItemIdTypeCustom";
+import { playerState } from "../../states/playerState";
 
-export function postPickupCollectible(mod: Mod): void {
+export function postPickupCollectibleUpdate(mod: Mod): void {
   mod.AddCallback(
     ModCallback.POST_PICKUP_UPDATE,
     main,

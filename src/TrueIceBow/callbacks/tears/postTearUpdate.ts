@@ -4,7 +4,7 @@ import {
   TearFlag,
   TearVariant,
 } from "isaac-typescript-definitions";
-import { CollectibleTypeCustom } from "../enums/CollectibleTypeCustom";
+import { CollectibleTypeCustom } from "../../enums/CollectibleTypeCustom";
 
 export function postTearUpdate(mod: Mod): void {
   mod.AddCallback(ModCallback.POST_TEAR_UPDATE, main);

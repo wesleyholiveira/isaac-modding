@@ -1,10 +1,5 @@
-import {
-  EntityType,
-  ModCallback,
-  PickupVariant,
-} from "isaac-typescript-definitions";
+import { ModCallback } from "isaac-typescript-definitions";
 import { getPlayerIndex } from "isaacscript-common";
-import { CollectibleTypeCustom } from "../../enums/CollectibleTypeCustom";
 import { playerState } from "../../states/playerState";
 
 export function postGameStarted(mod: Mod): void {
@@ -37,20 +32,4 @@ function main(isContinued: boolean) {
       }
     }
   }
-
-  // spawnItems();
-}
-
-function spawnItems() {
-  Object.keys(CollectibleTypeCustom).forEach((key, index) => {
-    Isaac.Spawn(
-      EntityType.PICKUP,
-      PickupVariant.COLLECTIBLE,
-
-      CollectibleTypeCustom[key]!,
-      Vector(50 + 50 * (index + 1), 270),
-      Vector(0, 0),
-      undefined,
-    );
-  });
 }

@@ -2,20 +2,14 @@ import { SaveDataManager } from "isaacscript-common/dist/src/classes/features/ot
 import * as callbacks from "./callbacks";
 import { playerState } from "./states/playerState";
 
-export default function (mod: Mod, saveManager: SaveDataManager): void {
-  const {
-    postGameStarted,
-    postUseItem,
-    postInputAction,
-    postPlayerUpdate,
-    postTearUpdate,
-  } = callbacks;
+export function TrueIceBow(mod: Mod, saveManager: SaveDataManager): void {
+  const { postGameStarted, postUseItem, postPlayerUpdate, postTearUpdate } =
+    callbacks;
 
   saveManager.saveDataManager("playerState", playerState);
 
   postGameStarted(mod);
   postUseItem(mod);
-  postInputAction(mod);
   postPlayerUpdate(mod);
   postTearUpdate(mod);
 }

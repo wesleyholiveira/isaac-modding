@@ -31,28 +31,25 @@ function postUpdateUsingTrueIceBowCallback(player: EntityPlayer) {
   );
 
   if (playerState.room.isUsingTrueIceIceBow) {
-    const sprite = player.GetSprite();
-    const animation = sprite.GetAnimation();
     const twinPlayer = player.GetMainTwin();
 
-    if (animation !== "LiftItem") {
-      if (player.GetShootingJoystick().Length() > 0.1) {
-        // player.ToTear()?.Remove();
-        player.AnimateCollectible(
-          CollectibleTypeCustom.TRUE_ICE_BOW,
-          PlayerItemAnimation.HIDE_ITEM,
-        );
+    if (
+      currentFrame > playerState.room.currentFrame + 10 &&
+      player.GetShootingJoystick().Length() > 0.1
+    ) {
+      player.AnimateCollectible(
+        CollectibleTypeCustom.TRUE_ICE_BOW,
+        PlayerItemAnimation.HIDE_ITEM,
+      );
 
-        twinPlayer.DischargeActiveItem();
+      twinPlayer.DischargeActiveItem();
 
-        playerState.room.isUsingTrueIceIceBow = false;
-        playerState.room.transientState = true;
+      playerState.room.isUsingTrueIceIceBow = false;
+      playerState.room.transientState = true;
+      playerState.room.currentFrame = currentFrame;
 
-        trueIceBowEffect(player);
-      }
+      trueIceBowEffect(player);
     }
-
-    playerState.room.currentFrame = currentFrame;
   }
 }
 

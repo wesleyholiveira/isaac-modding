@@ -33,7 +33,7 @@ function postUseTrueIceBowCallback(
     );
 
     playerState.room.isUsingTrueIceIceBow = true;
-
+    playerState.room.currentFrame = Game().GetFrameCount();
     return defaultReturn;
   }
 

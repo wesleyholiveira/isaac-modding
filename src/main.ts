@@ -1,5 +1,5 @@
 import { SaveDataManager } from "isaacscript-common/dist/src/classes/features/other/SaveDataManager";
-import TrueIceBow from "./TrueIceBow";
+import { TrueIceBow } from "./TrueIceBow";
 
 main();
 

@@ -3,6 +3,7 @@ import {
   NullItemID,
   PlayerItemAnimation,
 } from "isaac-typescript-definitions";
+import { Settings } from "../../config";
 import { CollectibleTypeCustom } from "../../enums/CollectibleTypeCustom";
 import { NullItemIdTypeCustom } from "../../enums/NullItemIdTypeCustom";
 import { trueIceBowEffect } from "../../items/active/effect";
@@ -48,7 +49,13 @@ function postUpdateUsingTrueIceBowCallback(player: EntityPlayer) {
       playerState.room.transientState = true;
       playerState.room.currentFrame = currentFrame;
 
-      trueIceBowEffect(player);
+      trueIceBowEffect(
+        player,
+        Settings.FOV_ANGLE,
+        Settings.TRUE_ICE_TEARS_DEFAULT,
+        Settings.TRUE_ICE_TEARS_CAP,
+        Settings.TRUE_ICE_SHOOT_SPEED,
+      );
     }
   }
 }
@@ -61,6 +68,7 @@ function addAndRemoveCostumeOnPickupCollectible(
   if (player.HasCollectible(CollectibleTypeCustom.TRUE_ICE_BOW)) {
     if (!collectedItem) {
       player.AddNullCostume(costumeId);
+      player.SetSoulCharge(0);
       playerState.persistent.collectedItem = true;
     }
   } else {

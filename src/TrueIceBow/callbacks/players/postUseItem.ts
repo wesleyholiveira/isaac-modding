@@ -18,7 +18,7 @@ export function postUseItem(mod: Mod): void {
 
 // Método responsável por manipular a animação de "item utilizado".
 function postUseTrueIceBowCallback(
-  _collectibleType: CollectibleType,
+  collectibleType: CollectibleType,
   _rng: RNG,
   player: EntityPlayer,
 ) {
@@ -27,7 +27,7 @@ function postUseTrueIceBowCallback(
 
   if (!isUsingTrueIceIceBow) {
     player.AnimateCollectible(
-      CollectibleTypeCustom.TRUE_ICE_BOW,
+      collectibleType,
       PlayerItemAnimation.LIFT_ITEM,
       CollectibleAnimation.PLAYER_PICKUP_SPARKLE,
     );
@@ -38,7 +38,7 @@ function postUseTrueIceBowCallback(
   }
 
   player.AnimateCollectible(
-    CollectibleTypeCustom.TRUE_ICE_BOW,
+    collectibleType,
     PlayerItemAnimation.HIDE_ITEM,
     CollectibleAnimation.PLAYER_PICKUP_SPARKLE,
   );

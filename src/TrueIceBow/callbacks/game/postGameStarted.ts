@@ -12,6 +12,7 @@ function main(isContinued: boolean) {
   const twinPlayer = player.GetOtherTwin();
 
   if (!isContinued) {
+    playerState.persistent.iterations = 0;
     playerState.persistent.collectedItem = false;
 
     if (subPlayer !== undefined) {

@@ -1,7 +1,6 @@
 import { TearFlag, TearVariant } from "isaac-typescript-definitions";
 import { getPlayerIndex } from "isaacscript-common/dist/src/functions/playerIndex";
 import { Calculus } from "../../../helper/Calculus";
-import { TrueIceBowConfig } from "../../config/config";
 import { playerState } from "../../states/playerState";
 
 const GetCosMovementAngle = (coords: string): number => {
@@ -32,10 +31,10 @@ const GetCosMovementAngle = (coords: string): number => {
  */
 export function trueIceBowEffect(
   player: EntityPlayer,
-  fovAngle = TrueIceBowConfig.FOV_ANGLE,
-  tearsDefault = TrueIceBowConfig.TRUE_ICE_TEARS_DEFAULT,
-  capIceTears = TrueIceBowConfig.TRUE_ICE_TEARS_CAP,
-  shotSpeed = TrueIceBowConfig.TRUE_ICE_SHOOT_SPEED,
+  fovAngle = 45,
+  tearsDefault = 4,
+  capIceTears = 12,
+  shotSpeed = 15,
 ): void {
   const tearsFireRate = Calculus.tearDelay2fireRate(player.MaxFireDelay);
   const { X, Y } = player.GetShootingJoystick();

@@ -1,5 +1,6 @@
 import { SaveDataManager } from "isaacscript-common/dist/src/classes/features/other/SaveDataManager";
 import * as callbacks from "./callbacks";
+import { postUpdateProgressBarActiveItem } from "./callbacks/generics/postUpdate";
 import { playerState } from "./states/playerState";
 
 export function TrueIceBow(mod: Mod, saveManager: SaveDataManager): void {
@@ -9,6 +10,7 @@ export function TrueIceBow(mod: Mod, saveManager: SaveDataManager): void {
   saveManager.saveDataManager("playerState", playerState);
 
   postGameStarted(mod);
+  postUpdateProgressBarActiveItem(mod);
   postUseItem(mod);
   postPlayerUpdate(mod);
   postTearUpdate(mod);

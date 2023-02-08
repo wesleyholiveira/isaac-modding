@@ -11,5 +11,6 @@ export const playerState = {
   persistent: {
     baseMaxFireDelay: {} as Record<PlayerIndex, number>,
     collectedItem: false,
+    iterations: 0,
   },
 };

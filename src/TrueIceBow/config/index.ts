@@ -1,6 +1,8 @@
-export const TrueIceBowConfig = {
+export const Settings = {
   FOV_ANGLE: 45,
   TRUE_ICE_TEARS_DEFAULT: 4,
   TRUE_ICE_TEARS_CAP: 12,
   TRUE_ICE_SHOOT_SPEED: 15,
+  DEFAULT_DELAY_ACTIVE_ITEM: 110,
+  NERF_DELAY_ACTIVE_ITEM: 500,
 } as const;

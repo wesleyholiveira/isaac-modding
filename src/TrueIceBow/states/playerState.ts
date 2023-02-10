@@ -7,6 +7,7 @@ export const playerState = {
     currentFrame: 0,
     currentDirection: Direction.NO_DIRECTION,
     transientState: false,
+    familiars: [] as number[],
   },
   persistent: {
     baseMaxFireDelay: {} as Record<PlayerIndex, number>,

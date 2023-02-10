@@ -68,7 +68,6 @@ function addAndRemoveCostumeOnPickupCollectible(
   if (player.HasCollectible(CollectibleTypeCustom.TRUE_ICE_BOW)) {
     if (!collectedItem) {
       player.AddNullCostume(costumeId);
-      player.SetSoulCharge(0);
       playerState.persistent.collectedItem = true;
     }
   } else {

@@ -4,6 +4,7 @@ import { Settings } from "../../config";
 import { CollectibleTypeCustom } from "../../enums/CollectibleTypeCustom";
 import { playerState } from "../../states/playerState";
 
+// Unused
 export function postUpdateProgressBarActiveItem(mod: Mod): void {
   mod.AddCallback(ModCallback.POST_UPDATE, () =>
     main(Settings.DEFAULT_DELAY_ACTIVE_ITEM, Settings.NERF_DELAY_ACTIVE_ITEM),

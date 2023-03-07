@@ -1,11 +1,11 @@
+import { CollectibleTypeCustom } from "@shared/enums/CollectibleTypeCustom";
+import { TibState } from "@tib/states/tibState";
 import {
   CollectibleAnimation,
   CollectibleType,
   ModCallback,
   PlayerItemAnimation,
 } from "isaac-typescript-definitions";
-import { CollectibleTypeCustom } from "../../enums/CollectibleTypeCustom";
-import { playerState } from "../../states/playerState";
 
 // Método principal para registrar os callbacks.
 export function postUseItem(mod: Mod): void {
@@ -23,7 +23,7 @@ function postUseTrueIceBowCallback(
   player: EntityPlayer,
 ) {
   const defaultReturn = { Discharge: false, ShowAnim: false, Remove: false };
-  const { isUsingTrueIceIceBow } = playerState.room;
+  const { isUsingTrueIceIceBow } = TibState.room;
 
   if (!isUsingTrueIceIceBow) {
     player.AnimateCollectible(
@@ -32,8 +32,8 @@ function postUseTrueIceBowCallback(
       CollectibleAnimation.PLAYER_PICKUP_SPARKLE,
     );
 
-    playerState.room.isUsingTrueIceIceBow = true;
-    playerState.room.currentFrame = Game().GetFrameCount();
+    TibState.room.isUsingTrueIceIceBow = true;
+    TibState.room.currentFrame = Game().GetFrameCount();
     return defaultReturn;
   }
 
@@ -43,6 +43,6 @@ function postUseTrueIceBowCallback(
     CollectibleAnimation.PLAYER_PICKUP_SPARKLE,
   );
 
-  playerState.room.isUsingTrueIceIceBow = false;
+  TibState.room.isUsingTrueIceIceBow = false;
   return defaultReturn;
 }

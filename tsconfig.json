@@ -9,8 +9,14 @@
 
   // https://www.typescriptlang.org/docs/handbook/compiler-options.html
   "compilerOptions": {
+    "baseUrl": ".",
     // Specifies the root folder within your source files.
     "rootDir": "./src",
+    "paths": {
+      "@shared/*": ["./src/@shared/*"],
+      "@tib/*": ["./src/TrueIceBow/*"],
+      "@fowp/*": ["./src/FlaskWondrousPhysick/*"],
+    },
   },
 
   // A list of the TypeScript files to compile.

@@ -1,11 +1,11 @@
+import { CollectibleTypeCustom } from "@shared/enums/CollectibleTypeCustom";
+import { TibState } from "@tib/states/tibState";
 import {
   CollectibleType,
   FamiliarVariant,
   ModCallback,
 } from "isaac-typescript-definitions";
 import { getPlayerFamiliars } from "isaacscript-common";
-import { CollectibleTypeCustom } from "../../enums/CollectibleTypeCustom";
-import { playerState } from "../../states/playerState";
 
 export function postEnterRoom(mod: Mod): void {
   mod.AddCallback(ModCallback.POST_NEW_ROOM, main);
@@ -21,7 +21,7 @@ function main() {
     const wisps = getPlayerFamiliars(player).filter(
       (familiar: EntityFamiliar) =>
         familiar.Variant === FamiliarVariant.WISP &&
-        playerState.room.familiars.includes(familiar.InitSeed),
+        TibState.room.familiars?.includes(familiar.InitSeed),
     );
 
     if (wisps.length > 0) {

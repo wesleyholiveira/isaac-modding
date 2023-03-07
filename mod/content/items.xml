@@ -1,3 +1,8 @@
 <items gfxroot="gfx/items/" version="1">
-  <active id="1000" cache="tearflag tearcolor firedelay" description="Lágrimas congelantes" gfx="true_ice_heart.png" maxcharges="110" name="True Ice Bow" chargetype="timed" quality="4" />
+  <active id="1000" name="True Ice Bow" cache="tearflag tearcolor firedelay" description="Freezing Tears" gfx="true_ice_heart.png" maxcharges="110" chargetype="timed" quality="0" />
+  <active id="1001" name="Empty Flask of Wondrous Physick" description="A Crystal Flask" gfx="collectible_empty_flask.png" discharged="true" maxcharges="4" chargetype="charged" />
+  <active id="1002" name="Flask of Wondrous Physick" description="A Crystal flask" gfx="collectible_full_flask.png" initcharge="4" maxcharges="4" special="true" />
+  <trinket id="1003" description="Damage Up!" gfx="crystal_tear_dmgup.png" name="Crystal Tears - Dmg Up" />
+  <trinket id="1004" description="Tears Up!" gfx="crystal_tear_tearsup.png" name="Crystal Tears - Tears Up" />
+  <trinket id="1004" description="Health Up!" gfx="crystal_tear_redheart.png" name="Crystal Tears - Health Up" />
 </items>

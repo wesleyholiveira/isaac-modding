@@ -1,3 +1,3 @@
 <wisps gfxroot="gfx/familiar/wisps/">
-  <wisp id="1000" hp="3" layer="1" damage="2.5" tearScale="1.2" shotSpeed="0.75" fireDelay="64" tearFlags="65" tearVariant="41" />
+  <wisp id="1000" hp="3" layer="1" damage="2.5" tearScale="1.0" shotSpeed="0.75" fireDelay="50" tearFlags="65" tearVariant="41" />
 </wisps>

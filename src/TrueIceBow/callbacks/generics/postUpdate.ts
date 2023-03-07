@@ -1,13 +1,17 @@
+import { Settings } from "@shared/config";
+import { CollectibleTypeCustom } from "@shared/enums/CollectibleTypeCustom";
+import { TibState } from "@tib/states/tibState";
 import { CollectibleType, ModCallback } from "isaac-typescript-definitions";
 import { itemConfig } from "isaacscript-common";
-import { Settings } from "../../config";
-import { CollectibleTypeCustom } from "../../enums/CollectibleTypeCustom";
-import { playerState } from "../../states/playerState";
 
 // Unused
 export function postUpdateProgressBarActiveItem(mod: Mod): void {
+  const { TrueIceBow } = Settings;
   mod.AddCallback(ModCallback.POST_UPDATE, () =>
-    main(Settings.DEFAULT_DELAY_ACTIVE_ITEM, Settings.NERF_DELAY_ACTIVE_ITEM),
+    main(
+      TrueIceBow.DEFAULT_DELAY_ACTIVE_ITEM,
+      TrueIceBow.NERF_DELAY_ACTIVE_ITEM,
+    ),
   );
 }
 
@@ -15,8 +19,8 @@ function main(defaultCharge = 110, nerfDelay = 500) {
   const player = Isaac.GetPlayer();
   const item = itemConfig.GetCollectible(CollectibleTypeCustom.TRUE_ICE_BOW);
 
-  const { fpsPerTick } = playerState.persistent;
-  const { isUsingTrueIceIceBow } = playerState.room;
+  const { fpsPerTick } = TibState.persistent;
+  const { isUsingTrueIceIceBow } = TibState.room;
 
   const charge = item?.MaxCharges ?? defaultCharge;
   const delay = Math.ceil(nerfDelay / 30);
@@ -29,9 +33,9 @@ function main(defaultCharge = 110, nerfDelay = 500) {
     ) {
       const fpsPerTickCalc = charge / delay / 30;
       player.SetActiveCharge(Math.min(charge, Math.floor(fpsPerTick)));
-      playerState.persistent.fpsPerTick += fpsPerTickCalc;
+      TibState.persistent.fpsPerTick += fpsPerTickCalc;
     } else {
-      playerState.persistent.fpsPerTick = 0;
+      TibState.persistent.fpsPerTick = 0;
     }
   }
 }

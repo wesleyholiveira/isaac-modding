@@ -1,7 +1,7 @@
+import { Calculus } from "@shared/helpers/Calculus";
+import { TibState } from "@tib/states/tibState";
 import { TearFlag, TearVariant } from "isaac-typescript-definitions";
 import { getPlayerIndex } from "isaacscript-common/dist/src/functions/playerIndex";
-import { Calculus } from "../../../helper/Calculus";
-import { playerState } from "../../states/playerState";
 
 const GetCosMovementAngle = (coords: string): number => {
   const angle: Record<string, number> = {
@@ -38,7 +38,7 @@ export function trueIceBowEffect(
 ): void {
   const tearsFireRate = Calculus.tearDelay2fireRate(player.MaxFireDelay);
   const { X, Y } = player.GetShootingJoystick();
-  const { baseMaxFireDelay } = playerState.persistent;
+  const { baseMaxFireDelay } = TibState.persistent;
   const currentBaseMaxFireDelay =
     baseMaxFireDelay[getPlayerIndex(player, true)];
 

@@ -1,13 +1,13 @@
+import { Settings } from "@shared/config";
+import { CollectibleTypeCustom } from "@shared/enums/CollectibleTypeCustom";
+import { NullItemIdTypeCustom } from "@shared/enums/NullItemIdTypeCustom";
+import { trueIceBowEffect } from "@tib/items/active/effect";
+import { TibState } from "@tib/states/tibState";
 import {
   ModCallback,
   NullItemID,
   PlayerItemAnimation,
 } from "isaac-typescript-definitions";
-import { Settings } from "../../config";
-import { CollectibleTypeCustom } from "../../enums/CollectibleTypeCustom";
-import { NullItemIdTypeCustom } from "../../enums/NullItemIdTypeCustom";
-import { trueIceBowEffect } from "../../items/active/effect";
-import { playerState } from "../../states/playerState";
 
 export function postPlayerUpdate(mod: Mod): void {
   mod.AddCallback(
@@ -28,16 +28,17 @@ function postUpdateUsingTrueIceBowCallback(player: EntityPlayer) {
   addAndRemoveCostumeOnPickupCollectible(
     player,
     NullItemIdTypeCustom.TRUE_ICE_BOW_COSTUME,
-    playerState.persistent.collectedItem,
+    TibState.persistent.collectedItem,
   );
 
-  if (playerState.room.isUsingTrueIceIceBow) {
+  if (TibState.room.isUsingTrueIceIceBow) {
     const twinPlayer = player.GetMainTwin();
 
     if (
-      currentFrame > playerState.room.currentFrame + 10 &&
+      currentFrame > TibState.room.currentFrame + 10 &&
       player.GetShootingJoystick().Length() > 0.1
     ) {
+      const { TrueIceBow } = Settings;
       player.AnimateCollectible(
         CollectibleTypeCustom.TRUE_ICE_BOW,
         PlayerItemAnimation.HIDE_ITEM,
@@ -45,16 +46,16 @@ function postUpdateUsingTrueIceBowCallback(player: EntityPlayer) {
 
       twinPlayer.DischargeActiveItem();
 
-      playerState.room.isUsingTrueIceIceBow = false;
-      playerState.room.transientState = true;
-      playerState.room.currentFrame = currentFrame;
+      TibState.room.isUsingTrueIceIceBow = false;
+      TibState.room.transientState = true;
+      TibState.room.currentFrame = currentFrame;
 
       trueIceBowEffect(
         player,
-        Settings.FOV_ANGLE,
-        Settings.TRUE_ICE_TEARS_DEFAULT,
-        Settings.TRUE_ICE_TEARS_CAP,
-        Settings.TRUE_ICE_SHOOT_SPEED,
+        TrueIceBow.FOV_ANGLE,
+        TrueIceBow.TEARS_DEFAULT,
+        TrueIceBow.TEARS_CAP,
+        TrueIceBow.SHOOT_SPEED,
       );
     }
   }
@@ -68,10 +69,10 @@ function addAndRemoveCostumeOnPickupCollectible(
   if (player.HasCollectible(CollectibleTypeCustom.TRUE_ICE_BOW)) {
     if (!collectedItem) {
       player.AddNullCostume(costumeId);
-      playerState.persistent.collectedItem = true;
+      TibState.persistent.collectedItem = true;
     }
   } else {
     player.TryRemoveNullCostume(costumeId);
-    playerState.persistent.collectedItem = false;
+    TibState.persistent.collectedItem = false;
   }
 }

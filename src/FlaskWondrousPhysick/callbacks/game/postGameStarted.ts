@@ -11,7 +11,7 @@ function main(isContinued: boolean) {
   if (!isContinued) {
     FOWPState.persistent.baseDamage = player.Damage;
     FOWPState.persistent.items = [];
+    FOWPState.persistent.droppedItems = [];
     FOWPState.persistent.invoked = false;
-    FOWPState.persistent.droppedItems = 0;
   }
 }

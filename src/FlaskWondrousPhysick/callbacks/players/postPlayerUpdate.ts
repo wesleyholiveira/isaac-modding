@@ -42,10 +42,12 @@ export function postPlayerUpdate(mod: Mod): void {
       }
 
       if (items !== undefined && items.length === 0 && !invoked) {
+        const trinkets = Object.values(TrinketTypeCustom);
+        const randomItem = getRandomArrayElement(trinkets);
         Isaac.Spawn(
           EntityType.PICKUP,
           PickupVariant.TRINKET,
-          getRandomArrayElement(Object.values(TrinketTypeCustom)),
+          randomItem,
           Vector(player.Position.X, player.Position.Y + 20),
           VectorZero,
           undefined,

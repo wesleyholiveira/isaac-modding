@@ -7,7 +7,7 @@ import {
   PickupVariant,
   TrinketType,
 } from "isaac-typescript-definitions";
-import { VectorZero } from "isaacscript-common";
+import { itemConfig, VectorZero } from "isaacscript-common";
 
 export function prePickupCollision(mod: Mod): void {
   mod.AddCallback(
@@ -21,6 +21,7 @@ export function main(
   pickup: EntityPickup,
   collider: Entity,
 ): boolean | undefined {
+  const HUD = Game().GetHUD();
   const { items } = FOWPState.persistent;
   const player = collider.ToPlayer();
 
@@ -34,17 +35,22 @@ export function main(
       .filter((value: any) => value.trinket === pickup.SubType);
 
     if (crystalTrinkets !== undefined) {
-      const crystalTrinket = crystalTrinkets[0]?.trinket;
+      const crystalTrinket = crystalTrinkets[0]?.trinket as TrinketType;
 
       if (crystalTrinket !== undefined) {
         if (items.length < Settings.FlaskWondrousPhysick.MAX_SLOTS) {
-          player.AnimateTrinket(crystalTrinket as TrinketType);
+          player.AnimateTrinket(crystalTrinket);
           items.push({
             index: (crystalTrinkets[0]?.index ?? -1) + 1,
             trinket: crystalTrinket,
           });
 
           pickup.Remove();
+          FOWPState.persistent.droppedItems?.push(crystalTrinket);
+          HUD.ShowItemText(
+            player,
+            itemConfig.GetTrinket(crystalTrinket) as ItemConfigItem,
+          );
         } else {
           const firstSlotItem = items[0];
           if (firstSlotItem !== undefined) {

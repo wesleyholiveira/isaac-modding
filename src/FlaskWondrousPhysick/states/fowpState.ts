@@ -7,8 +7,8 @@ interface IFOWPState {
     dmgUp: number;
     baseDamage: number;
     items?: Array<{ index: number; trinket: number }>;
+    droppedItems?: number[];
     invoked: boolean;
-    droppedItems: number;
   };
 }
 
@@ -21,7 +21,7 @@ export const FOWPState: IFOWPState = {
     dmgUp: 0,
     baseDamage: 0,
     items: undefined,
+    droppedItems: undefined,
     invoked: false,
-    droppedItems: 0,
   },
 } as const;

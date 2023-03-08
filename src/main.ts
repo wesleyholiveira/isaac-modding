@@ -5,7 +5,7 @@ import { TrueIceBow } from "./TrueIceBow";
 main();
 
 function main() {
-  const MOD_NAME = "Molesker Modding";
+  const MOD_NAME = "Isaac's Arsenal";
 
   const mod = RegisterMod(MOD_NAME, 1);
   const saveManager = new SaveDataManager();

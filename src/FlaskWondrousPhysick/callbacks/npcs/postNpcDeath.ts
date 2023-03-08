@@ -6,34 +6,44 @@ import {
   ModCallback,
   PickupVariant,
 } from "isaac-typescript-definitions";
-import { getRoomItemPoolType, VectorZero } from "isaacscript-common";
+import {
+  getRandomArrayIndex,
+  getRoomItemPoolType,
+  VectorZero,
+} from "isaacscript-common";
 
 export function postNpcDeath(mod: Mod): void {
   mod.AddCallback(ModCallback.POST_NPC_DEATH, (npc: EntityNPC) => {
     const { bossDied } = FOWPState.room;
     const { droppedItems } = FOWPState.persistent;
+    const items = Object.values(TrinketTypeCustom);
 
     // Isaac.ConsoleOutput( `${bossDied}, ${npc.IsBoss()}, ${getRoomItemPoolType()}\n`, );
     if (
       !bossDied &&
       npc.IsBoss() &&
-      getRoomItemPoolType() === ItemPoolType.BOSS
+      getRoomItemPoolType() === ItemPoolType.BOSS &&
+      droppedItems?.length !== items.length
     ) {
-      const items = Object.values(TrinketTypeCustom);
-      const item = items[droppedItems] ?? -1;
-      if (item !== -1) {
-        Isaac.Spawn(
-          EntityType.PICKUP,
-          PickupVariant.TRINKET,
-          item,
-          npc.Position,
-          VectorZero,
-          undefined,
-        );
+      let item = items[getRandomArrayIndex(items)] ?? -1;
 
-        FOWPState.persistent.droppedItems++;
-        FOWPState.room.bossDied = true;
+      while (
+        droppedItems !== undefined &&
+        droppedItems.filter((value) => value === item).length > 0
+      ) {
+        item = items[getRandomArrayIndex(items)] ?? -1;
       }
+
+      Isaac.Spawn(
+        EntityType.PICKUP,
+        PickupVariant.TRINKET,
+        item,
+        npc.Position,
+        VectorZero,
+        undefined,
+      );
+
+      FOWPState.room.bossDied = true;
     }
   });
 }

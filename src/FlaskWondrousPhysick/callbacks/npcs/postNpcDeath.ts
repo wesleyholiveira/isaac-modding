@@ -25,25 +25,27 @@ export function postNpcDeath(mod: Mod): void {
       getRoomItemPoolType() === ItemPoolType.BOSS &&
       droppedItems?.length !== items.length
     ) {
-      let item = items[getRandomArrayIndex(items)] ?? -1;
+      let item = items[getRandomArrayIndex(items)];
 
       while (
         droppedItems !== undefined &&
         droppedItems.filter((value) => value === item).length > 0
       ) {
-        item = items[getRandomArrayIndex(items)] ?? -1;
+        item = items[getRandomArrayIndex(items)];
       }
 
-      Isaac.Spawn(
-        EntityType.PICKUP,
-        PickupVariant.TRINKET,
-        item,
-        npc.Position,
-        VectorZero,
-        undefined,
-      );
+      if (item !== undefined) {
+        Isaac.Spawn(
+          EntityType.PICKUP,
+          PickupVariant.TRINKET,
+          item,
+          npc.Position,
+          VectorZero,
+          undefined,
+        );
 
-      FOWPState.room.bossDied = true;
+        FOWPState.room.bossDied = true;
+      }
     }
   });
 }

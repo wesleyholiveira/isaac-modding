@@ -5,3 +5,4 @@ export { prePickupCollision } from "./pickups/prePickupCollision";
 export { postPlayerUpdate } from "./players/postPlayerUpdate";
 export { postUseItem } from "./players/postUseItem";
 export { postEnterRoom } from "./rooms/postEnterRoom";
+export { postTears } from "./tears/tears";

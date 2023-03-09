@@ -14,11 +14,13 @@ export function FlaskWondrousPhysick(
     postRender,
     postPlayerUpdate,
     postNpcDeath,
+    postTears,
   } = callbacks;
   saveManager.saveDataManager("fowpState", FOWPState);
 
   postGameStarted(mod);
   postRender(mod);
+  postTears(mod);
   postPlayerUpdate(mod);
   postNpcDeath(mod);
   prePickupCollision(mod);

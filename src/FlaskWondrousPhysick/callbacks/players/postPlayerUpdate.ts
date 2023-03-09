@@ -40,7 +40,6 @@ export function postPlayerUpdate(mod: Mod): void {
           0,
         );
       }
-
       if (items !== undefined && items.length === 0 && !invoked) {
         const trinkets = Object.values(TrinketTypeCustom);
         const randomItem = getRandomArrayElement(trinkets);

@@ -5,4 +5,5 @@
   <trinket id="1003" description="Damage Up!" gfx="crystal_tear_dmgup.png" name="Crystal Tears - Dmg Up" />
   <trinket id="1004" description="Tears Up!" gfx="crystal_tear_tearsup.png" name="Crystal Tears - Tears Up" />
   <trinket id="1004" description="Health Up!" gfx="crystal_tear_redheart.png" name="Crystal Tears - Health Up" />
+  <trinket id="1005" description="Damage Up!" gfx="crystal_tear_thornycracked.png" name="Thorny Cracked Crystal Tears" />
 </items>

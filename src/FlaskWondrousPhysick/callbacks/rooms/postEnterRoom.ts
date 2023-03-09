@@ -16,6 +16,8 @@ function main() {
     player.HasCollectible(CollectibleTypeCustom.EMPTY_FLASK_OF_WONDROUS_PHYSICK)
   ) {
     FOWPState.room.bossDied = false;
+    FOWPState.room.thornyDmgUp = 0;
+    FOWPState.persistent.deadEye = false;
     if (items !== undefined && items.length > 0) {
       if (dmgUp !== 0) {
         player.Damage -= dmgUp;

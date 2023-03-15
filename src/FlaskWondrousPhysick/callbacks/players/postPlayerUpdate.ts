@@ -22,19 +22,22 @@ export function postPlayerUpdate(mod: Mod): void {
       lastFrame = frame;
     }
 
+    const soulBloodCharge = player.GetSoulCharge() + player.GetBloodCharge();
+    const batterySoulChargeBloodCharge =
+      player.GetActiveCharge() + player.GetBatteryCharge() + soulBloodCharge;
     if (
       player.HasCollectible(
         CollectibleTypeCustom.EMPTY_FLASK_OF_WONDROUS_PHYSICK,
       )
     ) {
-      if (player.GetActiveCharge() >= defaultCharge) {
-        const charge = player.GetBatteryCharge();
+      if (batterySoulChargeBloodCharge >= defaultCharge) {
         player.RemoveCollectible(
           CollectibleTypeCustom.EMPTY_FLASK_OF_WONDROUS_PHYSICK,
         );
+
         player.AddCollectible(
           CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK,
-          charge > 0 ? player.GetActiveCharge() + charge : defaultCharge,
+          soulBloodCharge >= defaultCharge ? 0 : batterySoulChargeBloodCharge,
         );
       }
     }
@@ -43,11 +46,7 @@ export function postPlayerUpdate(mod: Mod): void {
       player.HasCollectible(CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK) &&
       !player.HasCollectible(CollectibleType.SCHOOLBAG)
     ) {
-      if (
-        player.GetActiveCharge() < defaultCharge &&
-        player.GetSoulCharge() < 1 &&
-        player.GetBloodCharge() < 1
-      ) {
+      if (batterySoulChargeBloodCharge < defaultCharge) {
         player.RemoveCollectible(
           CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK,
         );

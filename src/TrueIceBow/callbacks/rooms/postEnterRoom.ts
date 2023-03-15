@@ -15,6 +15,7 @@ function main() {
   const player = Isaac.GetPlayer();
 
   if (
+    player !== undefined &&
     player.GetActiveItem() === CollectibleTypeCustom.TRUE_ICE_BOW &&
     player.HasCollectible(CollectibleType.BOOK_OF_VIRTUES)
   ) {

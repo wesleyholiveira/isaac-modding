@@ -20,8 +20,8 @@ export function FlaskWondrousPhysick(
 
   postGameStarted(mod);
   postRender(mod);
-  postTears(mod);
   postPlayerUpdate(mod);
+  postTears(mod);
   postNpcDeath(mod);
   prePickupCollision(mod);
   postEnterRoom(mod);

@@ -1,5 +1,5 @@
+import { Effects } from "@fowp/types/effects.type";
 import { TrinketType } from "isaac-typescript-definitions";
-import { Effects } from "../types/effects.type";
 
 export class Combinator {
   constructor(private readonly player: EntityPlayer) {}
@@ -11,7 +11,7 @@ export class Combinator {
       const effect = Effects[trinketID];
 
       if (effect !== undefined) {
-        const combination = effect(this.player);
+        const combination = effect.effect(this.player);
         charges.push(combination.charge);
       }
     });

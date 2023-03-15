@@ -1,6 +1,6 @@
 import { FOWPState } from "@fowp/states/fowpState";
 import { Settings } from "@shared/config";
-import { ModCallback } from "isaac-typescript-definitions";
+import { ModCallback, TearVariant } from "isaac-typescript-definitions";
 
 export function postTears(mod: Mod): void {
   const MAX_DMG = Settings.FlaskWondrousPhysick.DEAD_EYE_MAX_DMG;
@@ -8,6 +8,10 @@ export function postTears(mod: Mod): void {
   let missedShots = 0;
 
   mod.AddCallback(ModCallback.POST_FIRE_TEAR, (tear: EntityTear) => {
+    if (FOWPState.persistent.fireMind) {
+      tear.ChangeVariant(TearVariant.FIRE_MIND);
+    }
+
     if (FOWPState.persistent.deadEye) {
       const { thornyDmgUp } = FOWPState.room;
       tear.SetDeadEyeIntensity(thornyDmgUp);

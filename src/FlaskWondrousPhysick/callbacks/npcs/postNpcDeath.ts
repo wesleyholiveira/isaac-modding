@@ -1,5 +1,4 @@
 import { FOWPState } from "@fowp/states/fowpState";
-import { TrinketTypeCustom } from "@shared/enums/TrinketTypeCustom";
 import {
   EntityType,
   ItemPoolType,
@@ -7,44 +6,67 @@ import {
   PickupVariant,
 } from "isaac-typescript-definitions";
 import {
-  getRandomArrayIndex,
+  getRandomArrayElement,
+  getRandomInt,
   getRoomItemPoolType,
   VectorZero,
 } from "isaacscript-common";
 
+import { Effects } from "@fowp/types/effects.type";
+import { Rarity } from "@shared/enums/Rarity";
+
 export function postNpcDeath(mod: Mod): void {
+  const rarities = Object.values(Rarity).sort((a, b) => b - a);
   mod.AddCallback(ModCallback.POST_NPC_DEATH, (npc: EntityNPC) => {
     const { bossDied } = FOWPState.room;
-    const { droppedItems } = FOWPState.persistent;
-    const items = Object.values(TrinketTypeCustom);
+    const { droppedItems, items: slots } = FOWPState.persistent;
+    const items = Object.entries(Effects);
 
-    // Isaac.ConsoleOutput( `${bossDied}, ${npc.IsBoss()}, ${getRoomItemPoolType()}\n`, );
     if (
+      slots !== undefined &&
+      slots.length > 0 &&
       !bossDied &&
       npc.IsBoss() &&
       getRoomItemPoolType() === ItemPoolType.BOSS &&
-      droppedItems?.length !== items.length
+      droppedItems.length !== items.length
     ) {
-      let item = items[getRandomArrayIndex(items)];
+      const chance = getRandomInt(0, 100);
 
-      while (
-        droppedItems !== undefined &&
-        droppedItems.filter((value) => value === item).length > 0
-      ) {
-        item = items[getRandomArrayIndex(items)];
-      }
+      if (chance !== 0) {
+        for (const rarity of rarities) {
+          Isaac.ConsoleOutput(
+            `matou o boss: ${npc.GetBossID()}, raridade: ${rarity}, chance: ${chance}\n`,
+          );
+          if (chance <= rarity) {
+            const crystalTearsObtained = items.filter(
+              (item) =>
+                item[1].rarity === rarity &&
+                droppedItems.every(
+                  (droppedItem) => droppedItem.id !== parseInt(item[0], 10),
+                ),
+            );
+            if (crystalTearsObtained.length > 0) {
+              const item = getRandomArrayElement(crystalTearsObtained);
+              const id = parseInt(item[0], 10);
 
-      if (item !== undefined) {
-        Isaac.Spawn(
-          EntityType.PICKUP,
-          PickupVariant.TRINKET,
-          item,
-          npc.Position,
-          VectorZero,
-          undefined,
-        );
+              Isaac.Spawn(
+                EntityType.PICKUP,
+                PickupVariant.TRINKET,
+                id,
+                npc.Position,
+                VectorZero,
+                undefined,
+              );
 
-        FOWPState.room.bossDied = true;
+              FOWPState.persistent.droppedItems.push({
+                rarity,
+                id,
+              });
+              FOWPState.room.bossDied = true;
+              break;
+            }
+          }
+        }
       }
     }
   });

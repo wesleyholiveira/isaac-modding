@@ -1,7 +1,9 @@
 import {
   burnEffect,
+  ceruleanEffect,
   damageUpEffect,
   healthUpEffect,
+  holyMantleEffect,
   lightningEffect,
   malachiteSpawnEffect,
   tearsUpEffect,
@@ -51,5 +53,17 @@ export const Effects: EffectFunction = {
   [TrinketTypeCustom.CRYSTAL_TEARS_SLOTS_UP]: {
     rarity: Rarity.VERY_RARE,
     effect: () => ({ charge: 0 }),
+  },
+  [TrinketTypeCustom.CRYSTAL_TEARS_HOLY_MANTLE]: {
+    rarity: Rarity.ALMOST_GRANTED,
+    effect: holyMantleEffect,
+  },
+  [TrinketTypeCustom.CRYSTAL_TEARS_HOLY_MANTLE]: {
+    rarity: Rarity.ALMOST_GRANTED,
+    effect: holyMantleEffect,
+  },
+  [TrinketTypeCustom.CRYSTAL_TEARS_CERULEAN]: {
+    rarity: Rarity.ALMOST_GRANTED,
+    effect: ceruleanEffect,
   },
 } as const;

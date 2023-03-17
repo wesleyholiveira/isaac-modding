@@ -9,4 +9,6 @@ export const TrinketTypeCustom = {
   ),
   CRYSTAL_TEARS_MALACHITE: Isaac.GetTrinketIdByName("Malachite Shattered Tear"),
   CRYSTAL_TEARS_SLOTS_UP: Isaac.GetTrinketIdByName("Winged Crystal Tear"),
+  CRYSTAL_TEARS_HOLY_MANTLE: Isaac.GetTrinketIdByName("Opaline Bubbletear"),
+  CRYSTAL_TEARS_CERULEAN: Isaac.GetTrinketIdByName("Cerulean Tear"),
 } as const;

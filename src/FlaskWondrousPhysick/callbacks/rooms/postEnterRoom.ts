@@ -25,7 +25,8 @@ function main() {
     FOWPState.persistent.deadEye = false;
 
     if (Isaac.CountBosses() > 0) {
-      FOWPState.room.stopped = true;
+      FOWPState.persistent.stopped = true;
+      FOWPState.persistent.frameCount = Game().GetFrameCount();
     }
 
     if (items !== undefined && items.length > 0) {

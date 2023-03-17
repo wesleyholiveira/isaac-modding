@@ -14,10 +14,10 @@ function main(isContinued: boolean) {
     FOWPState.persistent.baseDamage = player.Damage;
     FOWPState.persistent.items = [];
     FOWPState.persistent.droppedItems = [] as unknown as never;
-    FOWPState.persistent.invoked = false;
+    FOWPState.persistent.malachite = [] as unknown as never;
     FOWPState.persistent.fireMind = false;
     FOWPState.persistent.deadEye = false;
-    FOWPState.room.stopped = false;
+    FOWPState.persistent.stopped = false;
     FOWPState.persistent.extraSlots = 0;
     FOWPState.persistent.dmgUp = 0;
     FOWPState.persistent.tearsUp = 0;

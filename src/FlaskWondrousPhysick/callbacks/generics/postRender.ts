@@ -13,7 +13,7 @@ export function postRender(mod: Mod): void {
     const { items, extraSlots } = FOWPState.persistent;
 
     if (
-      !FOWPState.room.stopped &&
+      !FOWPState.persistent.stopped &&
       items !== undefined &&
       (player.HasCollectible(CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK) ||
         player.HasCollectible(

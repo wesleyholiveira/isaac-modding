@@ -1,25 +1,20 @@
 import { FOWPState } from "@fowp/states/fowpState";
-import { Effects } from "@fowp/types/effects.type";
 import { CollectibleTypeCustom } from "@shared/enums/CollectibleTypeCustom";
-import { Rarity } from "@shared/enums/Rarity";
-import {
-  CollectibleType,
-  EntityType,
-  ModCallback,
-  PickupVariant,
-} from "isaac-typescript-definitions";
-import { getRandomArrayElement, VectorZero } from "isaacscript-common";
+import { CollectibleType, ModCallback } from "isaac-typescript-definitions";
+import { itemConfig } from "isaacscript-common";
 
 export function postPlayerUpdate(mod: Mod): void {
-  const defaultCharge = 4;
-  let lastFrame = 0;
-  mod.AddCallback(ModCallback.POST_PLAYER_UPDATE, (player: EntityPlayer) => {
-    const { items, invoked } = FOWPState.persistent;
+  const defaultCharge =
+    itemConfig.GetCollectible(CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK)
+      ?.MaxCharges ?? 4;
 
+  mod.AddCallback(ModCallback.POST_PEFFECT_UPDATE, (player: EntityPlayer) => {
     const frame = Game().GetFrameCount();
-    if (frame > lastFrame) {
-      FOWPState.room.stopped = false;
-      lastFrame = frame;
+    const { frameCount } = FOWPState.persistent;
+
+    if (frame > frameCount) {
+      FOWPState.persistent.stopped = false;
+      FOWPState.persistent.frameCount = frame;
     }
 
     const soulBloodCharge = player.GetSoulCharge() + player.GetBloodCharge();
@@ -37,7 +32,9 @@ export function postPlayerUpdate(mod: Mod): void {
 
         player.AddCollectible(
           CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK,
-          soulBloodCharge >= defaultCharge ? 0 : batterySoulChargeBloodCharge,
+          soulBloodCharge >= defaultCharge
+            ? 0
+            : batterySoulChargeBloodCharge - soulBloodCharge,
         );
       }
     }
@@ -54,29 +51,6 @@ export function postPlayerUpdate(mod: Mod): void {
           CollectibleTypeCustom.EMPTY_FLASK_OF_WONDROUS_PHYSICK,
           0,
         );
-      }
-      if (!invoked) {
-        const trinkets = Object.entries(Effects).filter(
-          ([_, trinket]) => trinket.rarity === Rarity.GRANTED,
-        );
-        const [randomItem] = getRandomArrayElement(trinkets);
-        const id = parseInt(randomItem, 10);
-        if (items !== undefined && items.length === 0) {
-          Isaac.ConsoleOutput("dropou o item na primeira vez");
-          Isaac.Spawn(
-            EntityType.PICKUP,
-            PickupVariant.TRINKET,
-            id,
-            Vector(player.Position.X, player.Position.Y + 20),
-            VectorZero,
-            undefined,
-          );
-          FOWPState.persistent.droppedItems.push({
-            id,
-            rarity: Rarity.GRANTED,
-          });
-          FOWPState.persistent.invoked = true;
-        }
       }
     }
   });

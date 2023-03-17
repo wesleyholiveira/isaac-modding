@@ -7,5 +7,6 @@ export const TrinketTypeCustom = {
   CRYSTAL_TEARS_LIGHTNING_CRACKED: Isaac.GetTrinketIdByName(
     "Lightning Cracked Tear",
   ),
-  CRYSTAL_TEARS_SLOTS_UP: Isaac.GetTrinketIdByName("I'M CRYING A LOT!"),
+  CRYSTAL_TEARS_MALACHITE: Isaac.GetTrinketIdByName("Malachite Shattered Tear"),
+  CRYSTAL_TEARS_SLOTS_UP: Isaac.GetTrinketIdByName("Winged Crystal Tear"),
 } as const;

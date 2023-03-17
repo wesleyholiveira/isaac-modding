@@ -11,5 +11,6 @@ export const Settings = {
     MAX_SLOTS: 2,
     DEAD_EYE_MAX_DMG: 2.5,
     DEAD_EYE_SHOOTS_TO_MAX_DMG: 5,
+    MALACHITE_FAMILIAR: 3,
   },
 } as const;

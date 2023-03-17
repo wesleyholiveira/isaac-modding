@@ -6,24 +6,7 @@ export function FlaskWondrousPhysick(
   mod: Mod,
   saveManager: SaveDataManager,
 ): void {
-  const {
-    postGameStarted,
-    postEnterRoom,
-    postUseItem,
-    prePickupCollision,
-    postRender,
-    postPlayerUpdate,
-    postNpcDeath,
-    postTears,
-  } = callbacks;
   saveManager.saveDataManager("fowpState", FOWPState);
 
-  postGameStarted(mod);
-  postRender(mod);
-  postPlayerUpdate(mod);
-  postTears(mod);
-  postNpcDeath(mod);
-  prePickupCollision(mod);
-  postEnterRoom(mod);
-  postUseItem(mod);
+  Object.values(callbacks).forEach((c) => c(mod));
 }

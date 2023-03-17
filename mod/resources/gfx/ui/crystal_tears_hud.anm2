@@ -1,11 +1,11 @@
 <AnimatedActor>
-	<Info CreatedBy="Unknown" CreatedOn="14/03/2023 14:30:21" Version="25" Fps="30"/>
+	<Info CreatedBy="Unknown" CreatedOn="13/03/2023 13:10:59" Version="24" Fps="30"/>
 	<Content>
 		<Spritesheets>
 			<Spritesheet Path="crystal_tears.png" Id="0"/>
 		</Spritesheets>
 		<Layers>
-			<Layer Name="glow" Id="0" SpritesheetId="0"/>
+			<Layer Name="body" Id="0" SpritesheetId="0"/>
 		</Layers>
 		<Nulls/>
 		<Events/>

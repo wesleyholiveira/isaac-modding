@@ -1,12 +1,13 @@
 <items gfxroot="gfx/items/" version="1">
   <active id="1000" name="True Ice Bow" cache="tearflag tearcolor firedelay" description="Freezing Tears" gfx="true_ice_heart.png" maxcharges="110" chargetype="timed" quality="3" />
-  <active id="1001" name="Empty Flask of Wondrous Physick" description="A Crystal Flask" gfx="empty_flask.png" discharged="true" maxcharges="4" chargetype="charged" quality="0" />
-  <active id="1002" name="Flask of Wondrous Physick" description="A Crystal flask" gfx="full_flask.png" initcharge="4" maxcharges="4" special="true" quality="3" />
-  <trinket id="1003" description="Damage Up!" gfx="crystal_tear_str.png" name="Strength Crystal Tear" />
-  <trinket id="1004" description="Tears Up!" gfx="crystal_tear_dex.png" name="Dexterity Crystal Tear" />
-  <trinket id="1004" description="Health Up!" gfx="crystal_tear_crimson.png" name="Crimson Crystal Tear" />
-  <trinket id="1005" description="Damage Up!" gfx="crystal_tear_thorny.png" name="Thorny Cracked Tear" />
-  <trinket id="1006" description="BURN!" gfx="crystal_tear_flames.png" name="Flame Cracked Tear" />
-  <trinket id="1007" description="ELECTRICITY!" gfx="crystal_tear_lightning.png" name="Lightning Cracked Tear" />
-  <trinket id="1008" description="Crystal Tears Up!" gfx="crystal_tear_thorny.png" name="I'M CRYING A LOT!" />
+  <active id="1001" name="Empty Flask of Wondrous Physick" description="Should supposedly fill this" gfx="empty_flask.png" discharged="true" maxcharges="4" chargetype="charged" quality="0" />
+  <active id="1002" name="Flask of Wondrous Physick" description="A taste of crystal tears concoctions" gfx="full_flask.png" initcharge="4" maxcharges="4" special="true" quality="3" />
+  <trinket id="1003" description="Feel the power!" gfx="crystal_tear_str.png" name="Strength Crystal Tear" />
+  <trinket id="1004" description="Makes me cry ;-;" gfx="crystal_tear_dex.png" name="Dexterity Crystal Tear" />
+  <trinket id="1004" description="Blood Essence" gfx="crystal_tear_crimson.png" name="Crimson Crystal Tear" />
+  <trinket id="1005" description="Accuracy = Power" gfx="crystal_tear_thorny.png" name="Thorny Cracked Tear" />
+  <trinket id="1006" description="Don't play with this!" gfx="crystal_tear_flames.png" name="Flame Cracked Tear" />
+  <trinket id="1007" description="Zzzzzzt-PANG!" gfx="crystal_tear_lightning.png" name="Lightning Cracked Tear" />
+  <trinket id="1008" description="Magnetized Buddies" gfx="crystal_tear_malachite.png" name="Malachite Shattered Tear" cache="familiars" />
+  <trinket id="1009" description="Extra crystal tear room" gfx="crystal_tear_winged.png" name="Winged Crystal Tear" />
 </items>

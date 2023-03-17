@@ -39,25 +39,29 @@ export function main(
     const rarity = Effects[crystalTrinket]?.rarity;
 
     if (crystalTrinket !== undefined && rarity !== undefined) {
+      HUD.ShowItemText(
+        player,
+        itemConfig.GetTrinket(crystalTrinket) as ItemConfigItem,
+      );
+
+      player.AnimateTrinket(crystalTrinket);
       if (crystalTrinket === TrinketTypeCustom.CRYSTAL_TEARS_SLOTS_UP) {
         FOWPState.persistent.extraSlots = 1;
+        pickup.Remove();
+
+        return undefined;
       }
 
       if (items.length < Settings.FlaskWondrousPhysick.MAX_SLOTS + extraSlots) {
         Isaac.ConsoleOutput(
           `Indice: ${crystalTrinkets[0]?.index}, Trinket: ${crystalTrinket}\n`,
         );
-        player.AnimateTrinket(crystalTrinket);
         items.push({
           index: (crystalTrinkets[0]?.index ?? -1) + 1,
           trinket: crystalTrinket,
         });
 
         pickup.Remove();
-        HUD.ShowItemText(
-          player,
-          itemConfig.GetTrinket(crystalTrinket) as ItemConfigItem,
-        );
       } else {
         const firstSlotItem = items[0];
         if (firstSlotItem !== undefined) {

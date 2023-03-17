@@ -2,18 +2,20 @@ interface IFOWPState {
   room: {
     bossDied: boolean;
     thornyDmgUp: number;
-    stopped: boolean;
+    missedShots: number;
   };
   persistent: {
     tearsUp: number;
     dmgUp: number;
     baseDamage: number;
     extraSlots: number;
-    items?: Array<{ index: number; trinket: number }>;
+    items?: Array<{ index: number; trinket: number }> | undefined;
     droppedItems: [{ id: number; rarity: number }];
-    invoked: boolean;
     fireMind: boolean;
     deadEye: boolean;
+    malachite?: Array<{ orbit: number; hp: number; seed?: number }> | undefined;
+    stopped: boolean;
+    frameCount: number;
   };
 }
 
@@ -21,7 +23,7 @@ export const FOWPState: IFOWPState = {
   room: {
     bossDied: false,
     thornyDmgUp: 0,
-    stopped: false,
+    missedShots: 0,
   },
   persistent: {
     tearsUp: 0,
@@ -30,8 +32,10 @@ export const FOWPState: IFOWPState = {
     extraSlots: 0,
     items: undefined,
     droppedItems: [] as unknown as never,
-    invoked: false,
     deadEye: false,
     fireMind: false,
+    malachite: undefined,
+    stopped: false,
+    frameCount: 0,
   },
 } as const;

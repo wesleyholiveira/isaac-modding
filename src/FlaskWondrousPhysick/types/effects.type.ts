@@ -3,6 +3,7 @@ import {
   damageUpEffect,
   healthUpEffect,
   lightningEffect,
+  malachiteSpawnEffect,
   tearsUpEffect,
   thornyDamageUpEffect,
 } from "@fowp/items/active";
@@ -42,6 +43,10 @@ export const Effects: EffectFunction = {
   [TrinketTypeCustom.CRYSTAL_TEARS_LIGHTNING_CRACKED]: {
     rarity: Rarity.RARE,
     effect: lightningEffect,
+  },
+  [TrinketTypeCustom.CRYSTAL_TEARS_MALACHITE]: {
+    rarity: Rarity.RARE,
+    effect: malachiteSpawnEffect,
   },
   [TrinketTypeCustom.CRYSTAL_TEARS_SLOTS_UP]: {
     rarity: Rarity.VERY_RARE,

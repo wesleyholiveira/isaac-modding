@@ -29,9 +29,9 @@ function main(
   _activeSlot: int,
   _customVarData: int,
 ): boolean {
-  const trinketIDs = FOWPState.persistent.items?.map(
-    (trinket) => trinket.trinket,
-  );
+  const trinketIDs = FOWPState.persistent.items
+    ?.map((trinket) => trinket.trinket)
+    .sort();
   const charges = combinator
     .combine(trinketIDs)
     .reduce((acc, value) => acc + value);

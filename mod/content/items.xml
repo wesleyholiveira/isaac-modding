@@ -10,6 +10,7 @@
   <trinket id="1007" description="Zzzzzzt-PANG!" gfx="crystal_tear_lightning.png" name="Lightning Cracked Tear" />
   <trinket id="1008" description="Magnetized Buddies" gfx="crystal_tear_malachite.png" name="Malachite Shattered Tear" cache="familiars" />
   <trinket id="1009" description="Extra crystal tear room" gfx="crystal_tear_winged.png" name="Winged Crystal Tear" />
-  <trinket id="1010" description="Feels Blessed" gfx="collectibles_313_holymantle.png" name="Opaline Bubbletear" />
-  <trinket id="1011" description="Feels like i'm walking..." gfx="collectibles_173_mitre.png" name="Cerulean Tear" />
+  <trinket id="1010" description="Holy Chemistry" gfx="crystal_tear_holy.png" name="Holy Crystal Tear" />
+  <trinket id="1011" description="Soul Materializer" gfx="crystal_tear_cerulean.png" name="Cerulean Tear" />
+  <trinket id="1012" description="Feels Kaboom!" gfx="crystal_tear_ruptured.png" name="Ruptured Tear" />
 </items>

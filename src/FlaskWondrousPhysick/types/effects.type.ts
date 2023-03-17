@@ -6,6 +6,7 @@ import {
   holyMantleEffect,
   lightningEffect,
   malachiteSpawnEffect,
+  rupturedEffect,
   tearsUpEffect,
   thornyDamageUpEffect,
 } from "@fowp/items/active";
@@ -58,12 +59,12 @@ export const Effects: EffectFunction = {
     rarity: Rarity.ALMOST_GRANTED,
     effect: holyMantleEffect,
   },
-  [TrinketTypeCustom.CRYSTAL_TEARS_HOLY_MANTLE]: {
-    rarity: Rarity.ALMOST_GRANTED,
-    effect: holyMantleEffect,
-  },
   [TrinketTypeCustom.CRYSTAL_TEARS_CERULEAN]: {
     rarity: Rarity.ALMOST_GRANTED,
     effect: ceruleanEffect,
+  },
+  [TrinketTypeCustom.CRYSTAL_TEARS_RUPTURED]: {
+    rarity: Rarity.ALMOST_GRANTED,
+    effect: rupturedEffect,
   },
 } as const;

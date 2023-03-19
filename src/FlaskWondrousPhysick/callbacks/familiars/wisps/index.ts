@@ -1,0 +1,1 @@
+export { postWispFamiliarUpdate } from "./postWispFamiliarUpdate";

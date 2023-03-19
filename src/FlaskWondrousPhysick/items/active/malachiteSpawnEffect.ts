@@ -1,7 +1,7 @@
 import { FOWPState } from "@fowp/states/fowpState";
-import { EffectResult } from "@fowp/types/effects.type";
 import { Settings } from "@shared/config";
 import { FamiliarVariantCustom } from "@shared/enums/FamiliarVariantCustom";
+import { EffectResult } from "@shared/types";
 import { EntityType } from "isaac-typescript-definitions";
 import { VectorZero } from "isaacscript-common";
 

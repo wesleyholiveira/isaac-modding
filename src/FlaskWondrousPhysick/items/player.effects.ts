@@ -12,17 +12,9 @@ import {
 } from "@fowp/items/active";
 import { Rarity } from "@shared/enums/Rarity";
 import { TrinketTypeCustom } from "@shared/enums/TrinketTypeCustom";
+import { EffectFunction } from "@shared/types";
 
-export interface IEffect {
-  charge: number;
-}
-
-export type EffectResult = IEffect;
-export type EffectFunction = Record<
-  string,
-  { rarity: number; effect: (player: EntityPlayer) => EffectResult }
->;
-export const Effects: EffectFunction = {
+export const PlayerEffects: EffectFunction = {
   [TrinketTypeCustom.CRYSTAL_TEARS_DMG_UP]: {
     rarity: Rarity.GRANTED,
     effect: damageUpEffect,

@@ -13,8 +13,18 @@ export function postEnterRoom(mod: Mod): void {
 }
 
 function main() {
+  let player: EntityPlayer = Isaac.GetPlayer();
+  const twin = player.GetOtherTwin();
   const { dmgUp, tearsUp, items, fireMind } = FOWPState.persistent;
-  const player = Isaac.GetPlayer();
+
+  if (twin !== undefined) {
+    if (
+      twin.HasCollectible(CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK) ||
+      twin.HasCollectible(CollectibleTypeCustom.EMPTY_FLASK_OF_WONDROUS_PHYSICK)
+    ) {
+      player = twin;
+    }
+  }
 
   if (
     player.HasCollectible(CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK) ||
@@ -30,8 +40,15 @@ function main() {
     }
 
     if (items !== undefined && items.length > 0) {
+      const subPlayer = player.GetSubPlayer();
+
       if (dmgUp !== 0) {
         player.Damage -= dmgUp;
+
+        if (subPlayer !== undefined) {
+          subPlayer.Damage -= dmgUp;
+        }
+
         FOWPState.persistent.dmgUp = 0;
       }
 
@@ -39,6 +56,13 @@ function main() {
         player.MaxFireDelay = Calculus.fireRate2tearDelay(
           Calculus.tearDelay2fireRate(player.MaxFireDelay) - tearsUp,
         );
+
+        if (subPlayer !== undefined) {
+          subPlayer.MaxFireDelay = Calculus.fireRate2tearDelay(
+            Calculus.tearDelay2fireRate(subPlayer.MaxFireDelay) - tearsUp,
+          );
+        }
+
         FOWPState.persistent.tearsUp = 0;
       }
       if (

@@ -16,6 +16,8 @@ interface IFOWPState {
     malachite?: Array<{ orbit: number; hp: number; seed?: number }> | undefined;
     stopped: boolean;
     frameCount: number;
+    usedTears: number[];
+    wisps: LuaMap<number, Entity>;
   };
 }
 
@@ -37,5 +39,7 @@ export const FOWPState: IFOWPState = {
     malachite: undefined,
     stopped: false,
     frameCount: 0,
+    usedTears: [] as unknown as never,
+    wisps: {} as LuaMap<number, Entity>,
   },
 } as const;

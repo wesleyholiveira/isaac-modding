@@ -2,7 +2,7 @@ import { FOWPState } from "@fowp/states/fowpState";
 import { FamiliarVariantCustom } from "@shared/enums/FamiliarVariantCustom";
 import { FamiliarVariant, ModCallback } from "isaac-typescript-definitions";
 
-export function postFamiliarInit(mod: Mod): void {
+export function postMalachiteFamiliarInit(mod: Mod): void {
   mod.AddCallback(
     ModCallback.POST_FAMILIAR_INIT,
     (familiar: EntityFamiliar) => {

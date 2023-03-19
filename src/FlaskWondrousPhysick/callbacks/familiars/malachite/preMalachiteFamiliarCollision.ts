@@ -6,7 +6,7 @@ import {
   ModCallback,
 } from "isaac-typescript-definitions";
 
-export function preFamiliarCollision(mod: Mod): void {
+export function preMalachiteFamiliarCollision(mod: Mod): void {
   mod.AddCallback(
     ModCallback.PRE_FAMILIAR_COLLISION,
     (familiar: EntityFamiliar, collider: Entity) => {

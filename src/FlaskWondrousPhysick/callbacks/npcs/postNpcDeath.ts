@@ -12,7 +12,7 @@ import {
   VectorZero,
 } from "isaacscript-common";
 
-import { Effects } from "@fowp/types/effects.type";
+import { PlayerEffects } from "@fowp/items/player.effects";
 import { Rarity } from "@shared/enums/Rarity";
 
 export function postNpcDeath(mod: Mod): void {
@@ -20,7 +20,7 @@ export function postNpcDeath(mod: Mod): void {
   mod.AddCallback(ModCallback.POST_NPC_DEATH, (npc: EntityNPC) => {
     const { bossDied } = FOWPState.room;
     const { droppedItems, items: slots } = FOWPState.persistent;
-    const items = Object.entries(Effects);
+    const items = Object.entries(PlayerEffects);
 
     if (
       slots !== undefined &&

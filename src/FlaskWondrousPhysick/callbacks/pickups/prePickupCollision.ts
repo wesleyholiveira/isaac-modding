@@ -1,5 +1,5 @@
+import { PlayerEffects } from "@fowp/items/player.effects";
 import { FOWPState } from "@fowp/states/fowpState";
-import { Effects } from "@fowp/types/effects.type";
 import { Settings } from "@shared/config";
 import { TrinketTypeCustom } from "@shared/enums/TrinketTypeCustom";
 import {
@@ -36,7 +36,7 @@ export function main(
       .filter((value) => value.trinket === pickup.SubType);
 
     const crystalTrinket = crystalTrinkets[0]?.trinket as TrinketType;
-    const rarity = Effects[crystalTrinket]?.rarity;
+    const rarity = PlayerEffects[crystalTrinket]?.rarity;
 
     if (crystalTrinket !== undefined && rarity !== undefined) {
       HUD.ShowItemText(

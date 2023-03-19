@@ -1,5 +1,5 @@
 import { FOWPState } from "@fowp/states/fowpState";
-import { EffectResult } from "@fowp/types/effects.type";
+import { EffectResult } from "@shared/types";
 import { TearFlag } from "isaac-typescript-definitions";
 import { addFlag, hasFlag } from "isaacscript-common";
 

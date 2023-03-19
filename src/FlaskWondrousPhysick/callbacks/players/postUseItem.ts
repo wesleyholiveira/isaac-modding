@@ -1,4 +1,5 @@
 import { Combinator } from "@fowp/combinator";
+import { PlayerEffects } from "@fowp/items/player.effects";
 import { FOWPState } from "@fowp/states/fowpState";
 import { CollectibleTypeCustom } from "@shared/enums/CollectibleTypeCustom";
 import {
@@ -7,13 +8,7 @@ import {
   UseFlag,
 } from "isaac-typescript-definitions";
 
-let combinator: Combinator;
-// let sprite: ChargeBarSprites;
 export function postUseItem(mod: Mod): void {
-  mod.AddCallback(ModCallback.POST_PLAYER_INIT, (player: EntityPlayer) => {
-    combinator = new Combinator(player);
-  });
-
   mod.AddCallback(
     ModCallback.POST_USE_ITEM,
     main,
@@ -24,18 +19,34 @@ export function postUseItem(mod: Mod): void {
 function main(
   _collectibleType: CollectibleType,
   _rng: RNG,
-  _player: EntityPlayer,
+  player: EntityPlayer,
   _useFlags: BitFlags<UseFlag>,
   _activeSlot: int,
   _customVarData: int,
-): boolean {
+) {
+  const combinator = new Combinator(player);
   const trinketIDs = FOWPState.persistent.items
     ?.map((trinket) => trinket.trinket)
     .sort();
-  const charges = combinator
-    .combine(trinketIDs)
-    .reduce((acc, value) => acc + value);
 
-  // Isaac.ConsoleOutput(`Charges: ${charges}\n`);
+  if (trinketIDs !== undefined && trinketIDs.length > 0) {
+    const { usedTears } = FOWPState.persistent;
+
+    if (player.HasCollectible(CollectibleType.BOOK_OF_VIRTUES)) {
+      FOWPState.persistent.usedTears = [...usedTears, ...trinketIDs];
+
+      trinketIDs.forEach(() =>
+        player.AddWisp(
+          CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK,
+          player.Position,
+        ),
+      );
+    }
+
+    const charges = combinator
+      .combine(PlayerEffects, trinketIDs)
+      .reduce((acc, value) => acc + value);
+  }
+
   return true;
 }

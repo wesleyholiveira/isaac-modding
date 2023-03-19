@@ -1,4 +1,4 @@
-import { EffectResult } from "@fowp/types/effects.type";
+import { EffectResult } from "@shared/types";
 import { getRandomInt } from "isaacscript-common";
 
 export function ceruleanEffect(player: EntityPlayer): EffectResult {

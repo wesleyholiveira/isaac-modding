@@ -1,4 +1,4 @@
-import { EffectResult } from "@fowp/types/effects.type";
+import { EffectResult } from "@shared/types";
 import { CollectibleType } from "isaac-typescript-definitions";
 
 export function holyMantleEffect(player: EntityPlayer): EffectResult {

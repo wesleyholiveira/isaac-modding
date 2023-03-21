@@ -2,12 +2,12 @@ import { FOWPState } from "@fowp/states/fowpState";
 import { EffectResult } from "@shared/types";
 
 export function damageUpEffect(player: EntityPlayer): EffectResult {
-  player.Damage += 1.5;
+  player.Damage += 0.5;
 
   if (!player.IsSubPlayer()) {
-    FOWPState.persistent.dmgUp += 1.5;
+    FOWPState.persistent.dmgUp += 0.5;
   }
   return {
-    charge: 2,
+    charge: 0,
   };
 }

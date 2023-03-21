@@ -38,6 +38,7 @@ export function preMalachiteFamiliarCollision(mod: Mod): void {
 
               m.hp -= 0.5;
             } else {
+              FOWPState.persistent.malachite?.splice(index, 1);
               familiar.Die();
             }
           }

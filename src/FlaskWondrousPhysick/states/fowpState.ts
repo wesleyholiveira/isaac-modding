@@ -1,3 +1,5 @@
+import { PlayerIndex } from "isaacscript-common";
+
 interface IFOWPState {
   room: {
     bossDied: boolean;
@@ -13,11 +15,20 @@ interface IFOWPState {
     droppedItems: [{ id: number; rarity: number }];
     fireMind: boolean;
     deadEye: boolean;
-    malachite?: Array<{ orbit: number; hp: number; seed?: number }> | undefined;
+    malachite?:
+      | Array<{ hp: number; seed?: number; offset: Vector }>
+      | undefined;
     stopped: boolean;
     frameCount: number;
     usedTears: number[];
-    wisps: LuaMap<number, Entity>;
+    tearIndex: number;
+    wisps: LuaMap<string, Entity>;
+    player?: LuaMap<PlayerIndex, EntityPlayer> | undefined;
+    playerID: PlayerIndex;
+    wispDeadEye: boolean;
+    wispFireMind: boolean;
+    wispLightning: boolean;
+    wispMalachite: boolean;
   };
 }
 
@@ -40,6 +51,13 @@ export const FOWPState: IFOWPState = {
     stopped: false,
     frameCount: 0,
     usedTears: [] as unknown as never,
-    wisps: {} as LuaMap<number, Entity>,
+    tearIndex: 0,
+    wisps: {} as LuaMap<string, Entity>,
+    player: undefined,
+    playerID: 0 as PlayerIndex,
+    wispDeadEye: false,
+    wispFireMind: false,
+    wispLightning: false,
+    wispMalachite: false,
   },
 } as const;

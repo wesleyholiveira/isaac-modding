@@ -4,20 +4,13 @@ import {
   HeartSubType,
   PickupVariant,
 } from "isaac-typescript-definitions";
-import { getRandomInt, VectorZero } from "isaacscript-common";
+import { VectorZero } from "isaacscript-common";
 
 export function ceruleanEffect(player: EntityPlayer): EffectResult {
-  const chance = getRandomInt(1, 100);
-
-  let soulHeart = HeartSubType.SOUL;
-  if (chance <= 50) {
-    soulHeart = HeartSubType.HALF_SOUL;
-  }
-
   Isaac.Spawn(
     EntityType.PICKUP,
     PickupVariant.HEART,
-    soulHeart,
+    HeartSubType.HALF_SOUL,
     player.Position.add(Vector(0, 20)),
     VectorZero,
     undefined,

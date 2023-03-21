@@ -1,6 +1,6 @@
 export * from "./familiars/malachite";
 export * from "./familiars/wisps";
-export { postGameStarted } from "./game/postGameStarted";
+export * from "./game";
 export * from "./generics";
 export { postNpcDeath } from "./npcs/postNpcDeath";
 export * from "./pickups";

@@ -1,1 +1,1 @@
-export { postWispFamiliarUpdate } from "./postWispFamiliarUpdate";
+export { postWispFamiliarInit } from "./postWispFamiliarInit";

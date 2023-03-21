@@ -61,6 +61,7 @@ export function main(
           trinket: crystalTrinket,
         });
 
+        FOWPState.persistent.usedTears = items.map(({ trinket }) => trinket);
         pickup.Remove();
       } else {
         const firstSlotItem = items[0];

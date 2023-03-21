@@ -5,6 +5,7 @@ import { addFlag, hasFlag } from "isaacscript-common";
 
 export function burnEffect(player: EntityPlayer): EffectResult {
   FOWPState.persistent.fireMind = true;
+  FOWPState.persistent.wispFireMind = true;
   if (!hasFlag(player.TearFlags, TearFlag.BURN)) {
     player.TearFlags = addFlag(player.TearFlags, TearFlag.BURN);
   }

@@ -20,25 +20,32 @@ export function postUpdate(mod: Mod): void {
   mod.AddCallback(ModCallback.POST_UPDATE, () => {
     const { wisps, usedTears } = FOWPState.persistent;
     const tears = Object.entries(wisps)
+      .map(([key, wisp], index) => ({
+        key,
+        wisp,
+        index,
+        tear: parseInt(key.split(".")[0] ?? "", 10),
+      }))
       .filter(
-        ([key, wisp]) =>
-          wisp.IsDead() && key === `${key.split(".")[0]}.${wisp.InitSeed}`,
-      )
-      .map(([tear]) => tear);
-
+        ({ key, wisp, tear }) =>
+          wisp.IsDead() && key === `${tear}.${wisp.InitSeed}`,
+      );
     if (tears.length > 0) {
       combinator?.combine(
         WispEffects,
-        tears.map((tearKey) => parseInt(tearKey.split(".")[0] ?? "", 10)),
+        tears.map((t) => t.tear),
       );
 
-      tears.forEach((tear, index) => {
+      tears.forEach(({ key, index }) => {
         usedTears.splice(index, 1);
-        wisps.delete(tear);
+        wisps.delete(key);
       });
 
       FOWPState.persistent.tearIndex -= tears.length;
-      FOWPState.persistent.usedTears.sort();
+
+      Isaac.ConsoleOutput(
+        `Wisps deads:${tears.length}, Tears: ${tears.length}, TearIndex: ${FOWPState.persistent.tearIndex}\n`,
+      );
     }
   });
 }

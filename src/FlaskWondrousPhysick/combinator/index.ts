@@ -13,6 +13,8 @@ export class Combinator {
       if (effect !== undefined) {
         const subPlayer = this.player.GetSubPlayer();
         const combination = effect.effect(this.player);
+
+        Isaac.ConsoleOutput(`Subplayer: ${subPlayer}\n`);
         if (subPlayer !== undefined && subPlayer.IsSubPlayer()) {
           effect.effect(subPlayer);
         }

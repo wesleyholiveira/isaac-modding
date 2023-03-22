@@ -13,9 +13,8 @@ export function postWispFamiliarInit(mod: Mod): void {
         const effect = WispEffects[tear];
         const key = `${tear}.${familiar.InitSeed}`;
 
-        Isaac.ConsoleOutput(
-          `Type: ${familiar.Type}, Tear ID: ${tear}, Color: ${effect?.color?.R}, ${effect?.color?.G}, ${effect?.color?.B}\n`,
-        );
+        // Isaac.ConsoleOutput( `Type: ${familiar.Type}, Tear ID: ${tear}, Color:
+        // ${effect?.color?.R}, ${effect?.color?.G}, ${effect?.color?.B}\n`, );
 
         if (effect !== undefined) {
           familiar.SetColor(effect.color ?? familiar.GetColor(), 0, 0);

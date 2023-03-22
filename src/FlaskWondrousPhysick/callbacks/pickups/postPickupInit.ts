@@ -20,7 +20,6 @@ export function postPickupInit(mod: Mod): void {
       if (pickup.SubType === CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK) {
         const { droppedItems } = FOWPState.persistent;
 
-        // Isaac.ConsoleOutput(`Items: ${droppedItems?.length}`);
         if (droppedItems !== undefined && droppedItems.length < 1) {
           const [randomItem] = getRandomArrayElement(trinkets);
           const id = parseInt(randomItem, 10);

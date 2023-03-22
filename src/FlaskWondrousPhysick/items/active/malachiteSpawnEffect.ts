@@ -17,8 +17,6 @@ export function malachiteSpawnEffect(player: EntityPlayer): EffectResult {
       totalMalachites -= malachitesNotDamaged.length;
     }
 
-    Isaac.ConsoleOutput(`${totalMalachites}`);
-
     for (let i = 0; i < totalMalachites; i++) {
       Isaac.Spawn(
         EntityType.FAMILIAR,

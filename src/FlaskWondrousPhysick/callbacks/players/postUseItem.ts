@@ -25,38 +25,42 @@ function main(
   _activeSlot: int,
   _customVarData: int,
 ) {
-  const { player: statePlayer } = FOWPState.persistent;
+  const { lastPlayerID, statsPlayer } = FOWPState.persistent;
+  const playerID = getPlayerIndex(player);
   const combinator = new Combinator(player);
-  const trinketIDs = FOWPState.persistent.items
-    ?.map((trinket) => trinket.trinket)
-    .sort();
+  const stats = statsPlayer[playerID];
 
-  if (trinketIDs !== undefined && trinketIDs.length > 0) {
-    const { usedTears } = FOWPState.persistent;
+  if (stats !== undefined) {
+    const { items } = stats;
+    const trinketIDs = items?.map((trinket) => trinket.trinket).sort();
 
-    if (player.HasCollectible(CollectibleType.BOOK_OF_VIRTUES)) {
-      FOWPState.persistent.usedTears = [...usedTears, ...trinketIDs];
+    if (trinketIDs !== undefined && trinketIDs.length > 0) {
+      const { usedTears } = FOWPState.persistent;
+      FOWPState.persistent.playerID = playerID;
 
-      trinketIDs
-        .slice(1)
-        .forEach(() =>
-          player.AddWisp(
-            CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK,
-            player.Position,
-          ),
-        );
+      if (player.HasCollectible(CollectibleType.BOOK_OF_VIRTUES)) {
+        if (usedTears !== undefined) {
+          usedTears[playerID] = [...(usedTears[playerID] ?? []), ...trinketIDs];
+        }
+
+        trinketIDs
+          .slice(1)
+          .forEach(() =>
+            player.AddWisp(
+              CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK,
+              player.Position,
+            ),
+          );
+
+        if (lastPlayerID === undefined) {
+          FOWPState.persistent.lastPlayerID = FOWPState.persistent.playerID;
+        }
+      }
+
+      const charges = combinator
+        .combine(PlayerEffects, trinketIDs)
+        .reduce((acc, value) => acc + value);
     }
-
-    const charges = combinator
-      .combine(PlayerEffects, trinketIDs)
-      .reduce((acc, value) => acc + value);
-
-    const playerID = getPlayerIndex(player);
-    if (statePlayer === undefined) {
-      FOWPState.persistent.player = new LuaMap();
-    }
-    FOWPState.persistent.player?.set(playerID, player);
-    FOWPState.persistent.playerID = playerID;
   }
 
   return true;

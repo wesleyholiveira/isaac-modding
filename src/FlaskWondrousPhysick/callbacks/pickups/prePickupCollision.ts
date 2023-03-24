@@ -8,7 +8,7 @@ import {
   PickupVariant,
   TrinketType,
 } from "isaac-typescript-definitions";
-import { itemConfig, VectorZero } from "isaacscript-common";
+import { getPlayerIndex, itemConfig, VectorZero } from "isaacscript-common";
 
 export function prePickupCollision(mod: Mod): void {
   mod.AddCallback(
@@ -23,61 +23,72 @@ export function main(
   collider: Entity,
 ): boolean | undefined {
   const HUD = Game().GetHUD();
-  const { items, extraSlots } = FOWPState.persistent;
+  const { statsPlayer } = FOWPState.persistent;
   const player = collider.ToPlayer();
 
-  if (player !== undefined && items !== undefined) {
-    const crystalTrinkets = Object.values(TrinketTypeCustom)
-      .sort()
-      .map((trinket: number, index: number) => ({
-        trinket,
-        index,
-      }))
-      .filter((value) => value.trinket === pickup.SubType);
+  if (player !== undefined) {
+    const playerID = getPlayerIndex(player);
+    const stats = statsPlayer[playerID];
 
-    const crystalTrinket = crystalTrinkets[0]?.trinket as TrinketType;
-    const rarity = PlayerEffects[crystalTrinket]?.rarity;
+    if (stats !== undefined) {
+      const { items, extraSlots } = stats;
 
-    if (crystalTrinket !== undefined && rarity !== undefined) {
-      HUD.ShowItemText(
-        player,
-        itemConfig.GetTrinket(crystalTrinket) as ItemConfigItem,
-      );
+      if (items !== undefined) {
+        const crystalTrinkets = Object.values(TrinketTypeCustom)
+          .sort()
+          .map((trinket: number, index: number) => ({
+            trinket,
+            index,
+          }))
+          .filter((value) => value.trinket === pickup.SubType);
 
-      player.AnimateTrinket(crystalTrinket);
-      if (crystalTrinket === TrinketTypeCustom.CRYSTAL_TEARS_SLOTS_UP) {
-        FOWPState.persistent.extraSlots = 1;
-        pickup.Remove();
+        const crystalTrinket = crystalTrinkets[0]?.trinket as TrinketType;
+        const rarity = PlayerEffects[crystalTrinket]?.rarity;
 
-        return undefined;
-      }
-
-      if (items.length < Settings.FlaskWondrousPhysick.MAX_SLOTS + extraSlots) {
-        Isaac.ConsoleOutput(
-          `Indice: ${crystalTrinkets[0]?.index}, Trinket: ${crystalTrinket}\n`,
-        );
-        items.push({
-          index: (crystalTrinkets[0]?.index ?? -1) + 1,
-          trinket: crystalTrinket,
-        });
-
-        FOWPState.persistent.usedTears = items.map(({ trinket }) => trinket);
-        pickup.Remove();
-      } else {
-        const firstSlotItem = items[0];
-        if (firstSlotItem !== undefined) {
-          items.shift();
-          Isaac.Spawn(
-            EntityType.PICKUP,
-            PickupVariant.TRINKET,
-            firstSlotItem.trinket,
-            Vector(player.Position.X, player.Position.Y + 12),
-            VectorZero,
-            collider,
+        if (crystalTrinket !== undefined && rarity !== undefined) {
+          HUD.ShowItemText(
+            player,
+            itemConfig.GetTrinket(crystalTrinket) as ItemConfigItem,
           );
+
+          player.AnimateTrinket(crystalTrinket);
+          if (crystalTrinket === TrinketTypeCustom.CRYSTAL_TEARS_SLOTS_UP) {
+            stats.extraSlots = 1;
+            pickup.Remove();
+
+            return undefined;
+          }
+
+          if (
+            items.length <
+            Settings.FlaskWondrousPhysick.MAX_SLOTS + extraSlots
+          ) {
+            Isaac.ConsoleOutput(
+              `Indice: ${crystalTrinkets[0]?.index}, Trinket: ${crystalTrinket}\n`,
+            );
+            items.push({
+              index: (crystalTrinkets[0]?.index ?? -1) + 1,
+              trinket: crystalTrinket,
+            });
+
+            pickup.Remove();
+          } else {
+            const firstSlotItem = items[0];
+            if (firstSlotItem !== undefined) {
+              items.shift();
+              Isaac.Spawn(
+                EntityType.PICKUP,
+                PickupVariant.TRINKET,
+                firstSlotItem.trinket,
+                Vector(player.Position.X, player.Position.Y + 12),
+                VectorZero,
+                collider,
+              );
+            }
+          }
+          return true;
         }
       }
-      return true;
     }
   }
 

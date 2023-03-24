@@ -1,28 +1,32 @@
+import { WispEffects } from "@fowp/items/wisp.effects";
 import { FOWPState } from "@fowp/states/fowpState";
+import { Color2ID } from "@shared/helpers/Color";
 import { ModCallback } from "isaac-typescript-definitions";
 import { getPlayerIndex, getRandomInt, PlayerIndex } from "isaacscript-common";
-import { WispEffects } from "../../items/wisp.effects";
 
 export function postTearUpdate(mod: Mod): void {
   mod.AddCallback(ModCallback.POST_TEAR_UPDATE, (tear: EntityTear) => {
-    const { thornyDmgUp, missedShots } = FOWPState.room;
-    const { dmgUp, wisps } = FOWPState.persistent;
+    const { wisps, statsPlayer } = FOWPState.persistent;
 
+    const player = tear.Parent?.ToPlayer();
+    const playerIndex = tear.GetData()["playerIndex"] as PlayerIndex;
     const parent = tear.Parent;
 
     const familiar = parent?.ToFamiliar();
     if (familiar !== undefined) {
-      Object.keys(wisps).forEach((key) => {
+      Object.keys(wisps).forEach((key: PlayerIndex) => {
         const wisp = wisps.get(key);
+        const filteredWisps = wisp?.filter(
+          (w) => w.InitSeed === familiar.InitSeed && !w.IsDead(),
+        );
         if (
-          familiar.InitSeed === wisp?.InitSeed &&
-          !wisp.IsDead() &&
+          filteredWisps !== undefined &&
+          filteredWisps.length > 0 &&
           tear.GetData()["proc"] === undefined
         ) {
           const chance = getRandomInt(1, 100);
-          const t = key.split(".")[0] ?? "";
-          const parsedTear = parseInt(t, 10);
-          const effect = WispEffects[parsedTear];
+          const cTear = Color2ID(familiar.GetColor());
+          const effect = WispEffects[cTear];
 
           tear.GetData()["proc"] = true;
 
@@ -51,20 +55,23 @@ export function postTearUpdate(mod: Mod): void {
       });
     }
 
-    const player = tear.Parent?.ToPlayer();
-    const playerIndex = tear.GetData()["playerIndex"] as PlayerIndex;
     if (player !== undefined && playerIndex === getPlayerIndex(player)) {
-      if (tear.IsDead()) {
-        if (thornyDmgUp > 0 && missedShots >= 2) {
-          FOWPState.room.thornyDmgUp = 0;
+      const stats = statsPlayer[playerIndex];
 
-          if (dmgUp > 0) {
-            player.Damage -= FOWPState.persistent.dmgUp;
-            FOWPState.persistent.dmgUp = 0;
+      if (stats !== undefined) {
+        const { dmgUp, thornyDmgUp, missedShots } = stats;
+        if (tear.IsDead()) {
+          if (thornyDmgUp > 0 && missedShots >= 2) {
+            stats.thornyDmgUp = 0;
+
+            if (dmgUp > 0) {
+              player.Damage -= dmgUp;
+              stats.dmgUp = 0;
+            }
+            stats.missedShots = 0;
           }
-          FOWPState.room.missedShots = 0;
+          stats.missedShots++;
         }
-        FOWPState.room.missedShots++;
       }
     }
   });

@@ -17,10 +17,17 @@ export function postPickupInit(mod: Mod): void {
   mod.AddCallback(
     ModCallback.POST_PICKUP_INIT,
     (pickup: EntityPickup) => {
-      if (pickup.SubType === CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK) {
-        const { droppedItems } = FOWPState.persistent;
+      const { playerID, statsPlayer } = FOWPState.persistent;
+      const stats = statsPlayer[playerID];
 
-        if (droppedItems !== undefined && droppedItems.length < 1) {
+      if (stats !== undefined) {
+        const { droppedItems } = stats;
+
+        if (
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          droppedItems.length < 1 &&
+          pickup.SubType === CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK
+        ) {
           const [randomItem] = getRandomArrayElement(trinkets);
           const id = parseInt(randomItem, 10);
           Isaac.Spawn(
@@ -32,7 +39,7 @@ export function postPickupInit(mod: Mod): void {
             undefined,
           );
 
-          FOWPState.persistent.droppedItems.push({
+          droppedItems.push({
             id,
             rarity: Rarity.GRANTED,
           });

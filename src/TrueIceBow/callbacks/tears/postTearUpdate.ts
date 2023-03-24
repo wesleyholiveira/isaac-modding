@@ -6,20 +6,25 @@ import {
   TearFlag,
   TearVariant,
 } from "isaac-typescript-definitions";
+import { getPlayerFromIndex } from "isaacscript-common";
 
 export function postTearUpdate(mod: Mod): void {
   mod.AddCallback(ModCallback.POST_TEAR_UPDATE, main);
 }
 
 function main(tear: EntityTear) {
-  const player = Isaac.GetPlayer();
+  const { playerID, player: statePlayer } = TibState.persistent;
+  const player = getPlayerFromIndex(playerID);
   const parent = tear.Parent;
+  const state = statePlayer[playerID];
 
   if (
-    parent?.Type === EntityType.FAMILIAR &&
-    player.HasCollectible(CollectibleTypeCustom.TRUE_ICE_BOW)
+    player !== undefined &&
+    state !== undefined &&
+    player.HasCollectible(CollectibleTypeCustom.TRUE_ICE_BOW) &&
+    parent?.Type === EntityType.FAMILIAR
   ) {
-    const { familiars } = TibState.room;
+    const { familiars } = state;
     const familiar = parent.ToFamiliar();
 
     if (familiars !== undefined && familiar !== undefined) {

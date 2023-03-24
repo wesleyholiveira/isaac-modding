@@ -36,62 +36,70 @@ export function trueIceBowEffect(
   capIceTears = 12,
   shotSpeed = 15,
 ): void {
-  const tearsFireRate = Calculus.tearDelay2fireRate(player.MaxFireDelay);
-  const { X, Y } = player.GetShootingJoystick();
-  const { baseMaxFireDelay } = TibState.persistent;
-  const currentBaseMaxFireDelay =
-    baseMaxFireDelay[getPlayerIndex(player, true)];
+  const playerID = getPlayerIndex(player, true);
+  const { player: statePlayer } = TibState.persistent;
+  const state = statePlayer[playerID];
 
-  const maxIceTearsFireRate =
-    (Calculus.tearDelay2fireRate(currentBaseMaxFireDelay ?? 10.0) *
-      capIceTears) /
-    tearsDefault;
+  if (state !== undefined) {
+    const tearsFireRate = Calculus.tearDelay2fireRate(player.MaxFireDelay);
+    const { X, Y } = player.GetShootingJoystick();
 
-  const tears = Math.max(
-    1,
-    Math.min(
-      capIceTears,
-      Math.ceil((tearsFireRate * capIceTears) / maxIceTearsFireRate),
-    ),
-  );
+    const { baseMaxFireDelay } = state;
+    const currentBaseMaxFireDelay = baseMaxFireDelay;
 
-  // Isaac.ConsoleOutput(`IceTears: ${tears} / Tears: ${tearsFireRate}\n`);
+    const maxIceTearsFireRate =
+      (Calculus.tearDelay2fireRate(currentBaseMaxFireDelay) * capIceTears) /
+      tearsDefault;
 
-  const medianAngle = fovAngle / 2;
-  const stepAngle = fovAngle / tears;
-  const strCoords = `${X},${Y}`;
-  const angle = GetCosMovementAngle(strCoords);
-  const coords = [angle];
-
-  for (let i = stepAngle; i <= medianAngle; i += stepAngle) {
-    const curAngle = angle + i;
-    const prevAngle = angle - i;
-
-    coords.push(curAngle);
-    coords.push(prevAngle);
-  }
-
-  if (tears % 2 === 0) {
-    coords.pop();
-  }
-
-  for (const newAngle of coords) {
-    const newX = shotSpeed * Math.cos(Calculus.deg2rad(newAngle));
-    const newY = shotSpeed * Math.sin(Calculus.deg2rad(newAngle));
-
-    const tear = player.FireTear(
-      player.Position,
-      Vector(newX, newY),
-      false,
-      false,
-      false,
-      undefined,
+    const tears = Math.max(
+      1,
+      Math.min(
+        capIceTears,
+        Math.ceil((tearsFireRate * capIceTears) / maxIceTearsFireRate),
+      ),
     );
 
-    if (!tear.HasTearFlags(TearFlag.ICE) && tear.Variant !== TearVariant.ICE) {
-      tear.AddTearFlags(TearFlag.ICE);
-      tear.AddTearFlags(TearFlag.SLOW);
-      tear.ChangeVariant(TearVariant.ICE);
+    // Isaac.ConsoleOutput(`IceTears: ${tears} / Tears: ${tearsFireRate}\n`);
+
+    const medianAngle = fovAngle / 2;
+    const stepAngle = fovAngle / tears;
+    const strCoords = `${X},${Y}`;
+    const angle = GetCosMovementAngle(strCoords);
+    const coords = [angle];
+
+    for (let i = stepAngle; i <= medianAngle; i += stepAngle) {
+      const curAngle = angle + i;
+      const prevAngle = angle - i;
+
+      coords.push(curAngle);
+      coords.push(prevAngle);
+    }
+
+    if (tears % 2 === 0) {
+      coords.pop();
+    }
+
+    for (const newAngle of coords) {
+      const newX = shotSpeed * Math.cos(Calculus.deg2rad(newAngle));
+      const newY = shotSpeed * Math.sin(Calculus.deg2rad(newAngle));
+
+      const tear = player.FireTear(
+        player.Position,
+        Vector(newX, newY),
+        false,
+        false,
+        false,
+        undefined,
+      );
+
+      if (
+        !tear.HasTearFlags(TearFlag.ICE) &&
+        tear.Variant !== TearVariant.ICE
+      ) {
+        tear.AddTearFlags(TearFlag.ICE);
+        tear.AddTearFlags(TearFlag.SLOW);
+        tear.ChangeVariant(TearVariant.ICE);
+      }
     }
   }
 }

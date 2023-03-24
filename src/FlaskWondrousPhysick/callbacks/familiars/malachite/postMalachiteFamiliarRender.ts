@@ -6,17 +6,22 @@ export function postMalachiteFamiliarRender(mod: Mod): void {
   mod.AddCallback(
     ModCallback.POST_FAMILIAR_RENDER,
     (familiar: EntityFamiliar) => {
-      const sprite = familiar.GetSprite();
-      const { malachite } = FOWPState.persistent;
+      const { statsPlayer, playerID } = FOWPState.persistent;
+      const stats = statsPlayer[playerID];
 
-      if (malachite !== undefined) {
-        const spriteIndex = malachite.findIndex(
-          (m) => m.seed === familiar.InitSeed,
-        );
+      if (stats !== undefined) {
+        const sprite = familiar.GetSprite();
+        const { malachite } = stats;
 
-        sprite.SetFrame(spriteIndex);
+        if (malachite !== undefined) {
+          const spriteIndex = malachite.findIndex(
+            (m) => m.seed === familiar.InitSeed,
+          );
+
+          sprite.SetFrame(spriteIndex);
+        }
+        sprite.Update();
       }
-      sprite.Update();
     },
     FamiliarVariantCustom.FAMILIAR_MALACHITE as FamiliarVariant,
   );

@@ -10,6 +10,7 @@ export function postPlayerUpdate(mod: Mod): void {
 
   mod.AddCallback(ModCallback.POST_PEFFECT_UPDATE, (player: EntityPlayer) => {
     const frame = Game().GetFrameCount();
+
     const { frameCount } = FOWPState.persistent;
 
     if (frame > frameCount) {

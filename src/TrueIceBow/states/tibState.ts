@@ -2,31 +2,29 @@ import { Direction } from "isaac-typescript-definitions";
 import { PlayerIndex } from "isaacscript-common";
 
 interface ITIBState {
-  room: {
-    isUsingTrueIceIceBow: boolean;
-    currentFrame: number;
-    currentDirection: Direction;
-    transientState: boolean;
-    familiars?: Seed[];
-  };
+  room: {};
   persistent: {
-    baseMaxFireDelay: Record<PlayerIndex, number>;
-    collectedItem: boolean;
-    fpsPerTick: 0;
+    playerID: PlayerIndex;
+    player: Record<
+      PlayerIndex,
+      {
+        isUsingTrueIceIceBow: boolean;
+        currentFrame: number;
+        currentDirection: Direction;
+        transientState: boolean;
+        familiars?: Seed[];
+        baseMaxFireDelay: number;
+        collectedItem: boolean;
+        fpsPerTick: number;
+      }
+    >;
   };
 }
 
 export const TibState: ITIBState = {
-  room: {
-    isUsingTrueIceIceBow: false,
-    currentFrame: 0,
-    currentDirection: Direction.NO_DIRECTION,
-    transientState: false,
-    familiars: undefined,
-  },
+  room: {},
   persistent: {
-    baseMaxFireDelay: {},
-    collectedItem: false,
-    fpsPerTick: 0,
+    playerID: 0 as PlayerIndex,
+    player: {},
   },
 } as const;

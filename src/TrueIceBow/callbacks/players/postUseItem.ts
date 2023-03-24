@@ -6,6 +6,7 @@ import {
   ModCallback,
   PlayerItemAnimation,
 } from "isaac-typescript-definitions";
+import { getPlayerIndex } from "isaacscript-common";
 
 // Método principal para registrar os callbacks.
 export function postUseItem(mod: Mod): void {
@@ -22,27 +23,33 @@ function postUseTrueIceBowCallback(
   _rng: RNG,
   player: EntityPlayer,
 ) {
+  const playerID = getPlayerIndex(player, true);
   const defaultReturn = { Discharge: false, ShowAnim: false, Remove: false };
-  const { isUsingTrueIceIceBow } = TibState.room;
+  const { player: statePlayer } = TibState.persistent;
+  const state = statePlayer[playerID];
 
-  if (!isUsingTrueIceIceBow) {
+  if (state !== undefined) {
+    const { isUsingTrueIceIceBow } = state;
+    if (!isUsingTrueIceIceBow) {
+      player.AnimateCollectible(
+        collectibleType,
+        PlayerItemAnimation.LIFT_ITEM,
+        CollectibleAnimation.PLAYER_PICKUP_SPARKLE,
+      );
+
+      state.isUsingTrueIceIceBow = true;
+      state.currentFrame = Game().GetFrameCount();
+      return defaultReturn;
+    }
+
     player.AnimateCollectible(
       collectibleType,
-      PlayerItemAnimation.LIFT_ITEM,
+      PlayerItemAnimation.HIDE_ITEM,
       CollectibleAnimation.PLAYER_PICKUP_SPARKLE,
     );
 
-    TibState.room.isUsingTrueIceIceBow = true;
-    TibState.room.currentFrame = Game().GetFrameCount();
-    return defaultReturn;
+    state.isUsingTrueIceIceBow = false;
+    TibState.persistent.playerID = getPlayerIndex(player);
   }
-
-  player.AnimateCollectible(
-    collectibleType,
-    PlayerItemAnimation.HIDE_ITEM,
-    CollectibleAnimation.PLAYER_PICKUP_SPARKLE,
-  );
-
-  TibState.room.isUsingTrueIceIceBow = false;
   return defaultReturn;
 }

@@ -35,7 +35,7 @@ export const WispEffects: EffectFunction = {
       damage: 0.5,
       flag: TearFlag.BURN,
       variant: TearVariant.FIRE_MIND,
-      chance: 10,
+      chance: 100,
     },
   },
   [TrinketTypeCustom.CRYSTAL_TEARS_LIGHTNING_CRACKED]: {
@@ -44,7 +44,7 @@ export const WispEffects: EffectFunction = {
     tears: {
       damage: 0.5,
       flag: TearFlag.JACOBS,
-      chance: 10,
+      chance: 100,
     },
   },
   [TrinketTypeCustom.CRYSTAL_TEARS_CERULEAN]: {

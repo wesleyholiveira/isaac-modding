@@ -1,51 +1,56 @@
 import { Combinator } from "@fowp/combinator";
 import { WispEffects } from "@fowp/items/wisp.effects";
 import { FOWPState } from "@fowp/states/fowpState";
+import { Color2ID } from "@shared/helpers/Color";
 import { ModCallback } from "isaac-typescript-definitions";
+import { ColorDefault, getPlayerFromIndex } from "isaacscript-common";
 
-let combinator: Combinator | undefined;
 export function postUpdate(mod: Mod): void {
-  const { player: statePlayer, playerID } = FOWPState.persistent;
-
-  mod.AddCallback(ModCallback.POST_PLAYER_INIT, (player: EntityPlayer) => {
-    if (combinator === undefined) {
-      const sPlayer = statePlayer?.get(playerID);
-      combinator = new Combinator(player);
-      if (statePlayer !== undefined && sPlayer !== undefined) {
-        combinator = new Combinator(sPlayer);
-      }
-    }
-  });
-
   mod.AddCallback(ModCallback.POST_UPDATE, () => {
-    const { wisps, usedTears } = FOWPState.persistent;
-    const tears = Object.entries(wisps)
-      .map(([key, wisp], index) => ({
-        key,
-        wisp,
-        index,
-        tear: parseInt(key.split(".")[0] ?? "", 10),
-      }))
-      .filter(
-        ({ key, wisp, tear }) =>
-          wisp.IsDead() && key === `${tear}.${wisp.InitSeed}`,
-      );
-    if (tears.length > 0) {
-      combinator?.combine(
-        WispEffects,
-        tears.map((t) => t.tear),
-      );
+    const { wisps, color, usedTears, statsPlayer } = FOWPState.persistent;
 
-      tears.forEach(({ key, index }) => {
-        usedTears.splice(index, 1);
-        wisps.delete(key);
-      });
+    Object.keys(wisps).forEach((pID) => {
+      const player = getPlayerFromIndex(pID);
 
-      FOWPState.persistent.tearIndex -= tears.length;
+      if (usedTears !== undefined) {
+        const cTears = usedTears[pID];
+        if (cTears !== undefined && cTears.length > 0) {
+          const wispsWithoutFilter = wisps
+            .get(pID)
+            ?.map((entity, index) => ({ entity, index }));
+          const ws = wispsWithoutFilter?.filter(({ entity }) =>
+            entity.IsDead(),
+          );
 
-      Isaac.ConsoleOutput(
-        `Wisps deads:${tears.length}, Tears: ${tears.length}, TearIndex: ${FOWPState.persistent.tearIndex}\n`,
-      );
-    }
+          const trinketIDs = ws?.map(({ entity }) =>
+            Color2ID(color.get(entity.InitSeed) ?? ColorDefault),
+          );
+
+          if (
+            trinketIDs !== undefined &&
+            player !== undefined &&
+            ws !== undefined &&
+            ws.length > 0
+          ) {
+            const combinator = new Combinator(player);
+            combinator.combine(WispEffects, trinketIDs);
+
+            ws.forEach(({ index }) => {
+              wisps.get(pID)?.splice(index, 1);
+            });
+
+            const stats = statsPlayer[pID];
+            if (stats !== undefined) {
+              trinketIDs.forEach((tear) => {
+                const index = cTears.indexOf(tear);
+                cTears.splice(index, 1);
+              });
+
+              stats.tearIndex -= trinketIDs.length;
+            }
+          }
+        }
+      }
+    });
   });
 }

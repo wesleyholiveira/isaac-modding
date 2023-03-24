@@ -8,6 +8,7 @@ import {
   NullItemID,
   PlayerItemAnimation,
 } from "isaac-typescript-definitions";
+import { getPlayerIndex } from "isaacscript-common";
 
 export function postPlayerUpdate(mod: Mod): void {
   mod.AddCallback(
@@ -22,41 +23,44 @@ export function postPlayerUpdate(mod: Mod): void {
  * @param player Parâmetro que contém a entidade do jogador para manipular as animações.
  */
 function postUpdateUsingTrueIceBowCallback(player: EntityPlayer) {
+  const playerID = getPlayerIndex(player, true);
   const currentFrame = Game().GetFrameCount();
+  const { player: playerState } = TibState.persistent;
+  const state = playerState[playerID];
 
-  // Adiciona/remove costume quando o item for adicionado no "inventário".
-  addAndRemoveCostumeOnPickupCollectible(
-    player,
-    NullItemIdTypeCustom.TRUE_ICE_BOW_COSTUME,
-    TibState.persistent.collectedItem,
-  );
+  if (state !== undefined) {
+    const { isUsingTrueIceIceBow, currentFrame: frameFromState } = state;
+    // Adiciona/remove costume quando o item for adicionado no "inventário".
+    addAndRemoveCostumeOnPickupCollectible(
+      player,
+      NullItemIdTypeCustom.TRUE_ICE_BOW_COSTUME,
+    );
 
-  if (TibState.room.isUsingTrueIceIceBow) {
-    const twinPlayer = player.GetMainTwin();
+    if (isUsingTrueIceIceBow) {
+      if (
+        currentFrame > frameFromState + 10 &&
+        player.GetShootingJoystick().Length() > 0.1
+      ) {
+        const { TrueIceBow } = Settings;
+        player.AnimateCollectible(
+          CollectibleTypeCustom.TRUE_ICE_BOW,
+          PlayerItemAnimation.HIDE_ITEM,
+        );
 
-    if (
-      currentFrame > TibState.room.currentFrame + 10 &&
-      player.GetShootingJoystick().Length() > 0.1
-    ) {
-      const { TrueIceBow } = Settings;
-      player.AnimateCollectible(
-        CollectibleTypeCustom.TRUE_ICE_BOW,
-        PlayerItemAnimation.HIDE_ITEM,
-      );
+        player.DischargeActiveItem();
 
-      twinPlayer.DischargeActiveItem();
+        state.isUsingTrueIceIceBow = false;
+        state.transientState = true;
+        state.currentFrame = currentFrame;
 
-      TibState.room.isUsingTrueIceIceBow = false;
-      TibState.room.transientState = true;
-      TibState.room.currentFrame = currentFrame;
-
-      trueIceBowEffect(
-        player,
-        TrueIceBow.FOV_ANGLE,
-        TrueIceBow.TEARS_DEFAULT,
-        TrueIceBow.TEARS_CAP,
-        TrueIceBow.SHOOT_SPEED,
-      );
+        trueIceBowEffect(
+          player,
+          TrueIceBow.FOV_ANGLE,
+          TrueIceBow.TEARS_DEFAULT,
+          TrueIceBow.TEARS_CAP,
+          TrueIceBow.SHOOT_SPEED,
+        );
+      }
     }
   }
 }
@@ -64,15 +68,22 @@ function postUpdateUsingTrueIceBowCallback(player: EntityPlayer) {
 function addAndRemoveCostumeOnPickupCollectible(
   player: EntityPlayer,
   costumeId: NullItemID,
-  collectedItem: boolean,
 ) {
-  if (player.HasCollectible(CollectibleTypeCustom.TRUE_ICE_BOW)) {
-    if (!collectedItem) {
-      player.AddNullCostume(costumeId);
-      TibState.persistent.collectedItem = true;
+  const playerID = getPlayerIndex(player);
+  const { player: playerState } = TibState.persistent;
+  const state = playerState[playerID];
+
+  if (state !== undefined) {
+    const { collectedItem } = state;
+
+    if (player.HasCollectible(CollectibleTypeCustom.TRUE_ICE_BOW)) {
+      if (!collectedItem) {
+        player.AddNullCostume(costumeId);
+        state.collectedItem = true;
+      }
+    } else {
+      player.TryRemoveNullCostume(costumeId);
+      state.collectedItem = false;
     }
-  } else {
-    player.TryRemoveNullCostume(costumeId);
-    TibState.persistent.collectedItem = false;
   }
 }

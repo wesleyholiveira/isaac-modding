@@ -3,61 +3,51 @@ import { PlayerIndex } from "isaacscript-common";
 interface IFOWPState {
   room: {
     bossDied: boolean;
-    thornyDmgUp: number;
-    missedShots: number;
   };
   persistent: {
-    tearsUp: number;
-    dmgUp: number;
-    baseDamage: number;
-    extraSlots: number;
-    items?: Array<{ index: number; trinket: number }> | undefined;
-    droppedItems: [{ id: number; rarity: number }];
-    fireMind: boolean;
-    deadEye: boolean;
-    malachite?:
-      | Array<{ hp: number; seed?: number; offset: Vector }>
-      | undefined;
+    statsPlayer: Record<
+      PlayerIndex,
+      {
+        dmgUp: number;
+        tearsUp: number;
+        thornyDmgUp: number;
+        missedShots: number;
+        fireMind: boolean;
+        deadEye: boolean;
+        malachite?:
+          | Array<{ hp: number; seed?: number; offset: Vector }>
+          | undefined;
+        wispMalachite: boolean;
+        items?: Array<{ index: number; trinket: number }> | undefined;
+        droppedItems: [{ id: number; rarity: number }];
+        extraSlots: number;
+        tearIndex: number;
+      }
+    >;
+    isJacobEsau: boolean;
     stopped: boolean;
     frameCount: number;
-    usedTears: number[];
-    tearIndex: number;
-    wisps: LuaMap<string, Entity>;
-    player?: LuaMap<PlayerIndex, EntityPlayer> | undefined;
+    usedTears?: Record<PlayerIndex, number[]> | undefined;
+    wisps: LuaMap<PlayerIndex, Entity[]>;
     playerID: PlayerIndex;
-    wispDeadEye: boolean;
-    wispFireMind: boolean;
-    wispLightning: boolean;
-    wispMalachite: boolean;
+    lastPlayerID?: PlayerIndex | undefined;
+    color: LuaMap<Seed, Color>;
   };
 }
 
 export const FOWPState: IFOWPState = {
   room: {
     bossDied: false,
-    thornyDmgUp: 0,
-    missedShots: 0,
   },
   persistent: {
-    tearsUp: 0,
-    dmgUp: 0,
-    baseDamage: 0,
-    extraSlots: 0,
-    items: undefined,
-    droppedItems: [] as unknown as never,
-    deadEye: false,
-    fireMind: false,
-    malachite: undefined,
+    statsPlayer: {},
+    isJacobEsau: false,
     stopped: false,
     frameCount: 0,
     usedTears: [] as unknown as never,
-    tearIndex: 0,
-    wisps: {} as LuaMap<string, Entity>,
-    player: undefined,
+    wisps: {} as LuaMap<PlayerIndex, Entity[]>,
     playerID: 0 as PlayerIndex,
-    wispDeadEye: false,
-    wispFireMind: false,
-    wispLightning: false,
-    wispMalachite: false,
+    color: {} as LuaMap<Seed, Color>,
+    lastPlayerID: undefined,
   },
 } as const;

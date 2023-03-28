@@ -6,6 +6,7 @@ import {
   EntityType,
   ModCallback,
   PickupVariant,
+  PlayerType,
   TrinketType,
 } from "isaac-typescript-definitions";
 import { getPlayerIndex, itemConfig, VectorZero } from "isaacscript-common";
@@ -27,7 +28,10 @@ export function main(
   const player = collider.ToPlayer();
 
   if (player !== undefined) {
-    const playerID = getPlayerIndex(player);
+    const playerID =
+      player.GetPlayerType() === PlayerType.SOUL_B
+        ? getPlayerIndex(player.GetMainTwin())
+        : getPlayerIndex(player);
     const stats = statsPlayer[playerID];
 
     if (stats !== undefined) {

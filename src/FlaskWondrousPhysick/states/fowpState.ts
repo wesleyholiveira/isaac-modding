@@ -2,6 +2,7 @@ import { PlayerIndex } from "isaacscript-common";
 
 interface IFOWPState {
   room: {
+    changed: boolean;
     bossDied: boolean;
   };
   persistent: {
@@ -15,7 +16,11 @@ interface IFOWPState {
         fireMind: boolean;
         deadEye: boolean;
         malachite?:
-          | Array<{ hp: number; seed?: number; offset: Vector }>
+          | Array<{
+              hp: number;
+              seed: number;
+              offset: Vector;
+            }>
           | undefined;
         wispMalachite: boolean;
         items?: Array<{ index: number; trinket: number }> | undefined;
@@ -24,7 +29,6 @@ interface IFOWPState {
         tearIndex: number;
       }
     >;
-    isJacobEsau: boolean;
     stopped: boolean;
     frameCount: number;
     usedTears?: Record<PlayerIndex, number[]> | undefined;
@@ -37,11 +41,11 @@ interface IFOWPState {
 
 export const FOWPState: IFOWPState = {
   room: {
+    changed: false,
     bossDied: false,
   },
   persistent: {
     statsPlayer: {},
-    isJacobEsau: false,
     stopped: false,
     frameCount: 0,
     usedTears: [] as unknown as never,

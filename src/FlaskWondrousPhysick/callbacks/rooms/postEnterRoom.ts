@@ -72,6 +72,7 @@ function main() {
         }
 
         FOWPState.room.bossDied = false;
+        // FOWPState.room.changed = true;
       }
     }
   });

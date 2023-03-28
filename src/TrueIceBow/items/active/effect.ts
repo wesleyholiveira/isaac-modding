@@ -89,7 +89,8 @@ export function trueIceBowEffect(
         false,
         false,
         false,
-        undefined,
+        player,
+        0.7,
       );
 
       if (

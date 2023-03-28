@@ -1,5 +1,5 @@
 <items gfxroot="gfx/items/" version="1">
-  <active id="1000" name="True Ice Bow" cache="tearflag tearcolor firedelay" description="Freezing Tears" gfx="true_ice_heart.png" maxcharges="110" chargetype="timed" quality="3" />
+  <active id="1000" name="True Ice Bow" cache="tearflag tearcolor firedelay" description="Freezing Tears" gfx="true_ice_heart.png" maxcharges="150" chargetype="timed" quality="3" />
   <active id="1001" name="Empty Flask of Wondrous Physick" description="Should supposedly fill this" gfx="empty_flask.png" discharged="true" maxcharges="4" chargetype="charged" quality="0" tags="offensive nocantrip" />
   <active id="1002" name="Flask of Wondrous Physick" description="A taste of crystal tears concoctions" gfx="full_flask.png" initcharge="4" maxcharges="4" special="true" quality="3" />
   <trinket id="1003" description="Feel the power!" gfx="crystal_tear_str.png" name="Strength Crystal Tear" />

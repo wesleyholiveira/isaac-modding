@@ -1,57 +1,50 @@
+import { Combinator } from "@fowp/combinator";
+import { WispEffects } from "@fowp/items/wisp.effects";
 import { FOWPState } from "@fowp/states/fowpState";
-import { CollectibleTypeCustom } from "@shared/enums/CollectibleTypeCustom";
-import { CollectibleType, ModCallback } from "isaac-typescript-definitions";
-import { itemConfig } from "isaacscript-common";
+import { Color2ID } from "@shared/helpers/Color";
+import { ModCallback } from "isaac-typescript-definitions";
+import { ColorDefault, getPlayerIndex } from "isaacscript-common";
 
 export function postPlayerUpdate(mod: Mod): void {
-  const defaultCharge =
-    itemConfig.GetCollectible(CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK)
-      ?.MaxCharges ?? 4;
+  mod.AddCallback(ModCallback.POST_PLAYER_UPDATE, (player: EntityPlayer) => {
+    const { wisps, color, usedTears, statsPlayer } = FOWPState.persistent;
+    const playerID = getPlayerIndex(player);
 
-  mod.AddCallback(ModCallback.POST_PEFFECT_UPDATE, (player: EntityPlayer) => {
-    const frame = Game().GetFrameCount();
+    if (usedTears !== undefined) {
+      const cTears = usedTears[playerID];
+      if (cTears !== undefined && cTears.length > 0) {
+        const wispsWithoutFilter = wisps
+          .get(playerID)
+          ?.map((entity, index) => ({ entity, index }));
+        const ws = wispsWithoutFilter?.filter(({ entity }) => entity.IsDead());
 
-    const { frameCount } = FOWPState.persistent;
-
-    if (frame > frameCount) {
-      FOWPState.persistent.stopped = false;
-      FOWPState.persistent.frameCount = frame;
-    }
-
-    const soulBloodCharge = player.GetSoulCharge() + player.GetBloodCharge();
-    const batterySoulChargeBloodCharge =
-      player.GetActiveCharge() + player.GetBatteryCharge() + soulBloodCharge;
-    if (
-      player.HasCollectible(
-        CollectibleTypeCustom.EMPTY_FLASK_OF_WONDROUS_PHYSICK,
-      )
-    ) {
-      if (batterySoulChargeBloodCharge >= defaultCharge) {
-        player.RemoveCollectible(
-          CollectibleTypeCustom.EMPTY_FLASK_OF_WONDROUS_PHYSICK,
+        const trinketIDs = ws?.map(({ entity }) =>
+          Color2ID(color.get(entity.InitSeed) ?? ColorDefault),
         );
 
-        player.AddCollectible(
-          CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK,
-          soulBloodCharge >= defaultCharge
-            ? 0
-            : batterySoulChargeBloodCharge - soulBloodCharge,
-        );
-      }
-    }
+        if (
+          trinketIDs !== undefined &&
+          ws !== undefined &&
+          ws.length > 0 &&
+          trinketIDs.length > 0
+        ) {
+          const combinator = new Combinator(player);
+          combinator.combine(WispEffects, trinketIDs);
 
-    if (
-      player.HasCollectible(CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK) &&
-      !player.HasCollectible(CollectibleType.SCHOOLBAG)
-    ) {
-      if (batterySoulChargeBloodCharge < defaultCharge) {
-        player.RemoveCollectible(
-          CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK,
-        );
-        player.AddCollectible(
-          CollectibleTypeCustom.EMPTY_FLASK_OF_WONDROUS_PHYSICK,
-          0,
-        );
+          ws.forEach(({ index }) => {
+            wisps.get(playerID)?.splice(index, 1);
+          });
+
+          const stats = statsPlayer[playerID];
+          if (stats !== undefined) {
+            trinketIDs.forEach((tear) => {
+              const index = cTears.indexOf(tear);
+              cTears.splice(index, 1);
+            });
+
+            stats.tearIndex -= trinketIDs.length;
+          }
+        }
       }
     }
   });

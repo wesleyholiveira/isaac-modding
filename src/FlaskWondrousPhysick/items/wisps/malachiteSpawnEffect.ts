@@ -25,6 +25,7 @@ export function malachiteSpawnEffect(player: EntityPlayer): EffectResult {
         player,
       );
 
+      familiar.GetData()["playerIndex"] = playerID;
       familiar.SetColor(Color(1, 0, 0), 0, 0);
       malachite.push({
         hp: 1.5,

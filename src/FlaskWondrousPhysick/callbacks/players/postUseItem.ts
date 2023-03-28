@@ -43,23 +43,21 @@ function main(
           usedTears[playerID] = [...(usedTears[playerID] ?? []), ...trinketIDs];
         }
 
-        trinketIDs
-          .slice(1)
-          .forEach(() =>
-            player.AddWisp(
-              CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK,
-              player.Position,
-            ),
+        trinketIDs.slice(1).forEach(() => {
+          const familiar = player.AddWisp(
+            CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK,
+            player.Position,
           );
+
+          familiar.GetData()["playerIndex"] = playerID;
+        });
 
         if (lastPlayerID === undefined) {
           FOWPState.persistent.lastPlayerID = FOWPState.persistent.playerID;
         }
       }
 
-      const charges = combinator
-        .combine(PlayerEffects, trinketIDs)
-        .reduce((acc, value) => acc + value);
+      combinator.combine(PlayerEffects, trinketIDs);
     }
   }
 

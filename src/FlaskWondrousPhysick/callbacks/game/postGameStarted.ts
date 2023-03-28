@@ -14,7 +14,6 @@ function main(isContinue: boolean) {
     FOWPState.persistent.lastPlayerID = undefined;
     FOWPState.persistent.usedTears = {};
     FOWPState.persistent.wisps = new LuaMap();
-    FOWPState.persistent.color = new LuaMap();
 
     for (const trinket of Object.values(TrinketTypeCustom)) {
       itemPool.RemoveTrinket(trinket);

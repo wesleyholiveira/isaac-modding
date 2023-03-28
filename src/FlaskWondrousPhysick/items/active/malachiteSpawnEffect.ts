@@ -7,19 +7,15 @@ import { getPlayerIndex, VectorZero } from "isaacscript-common";
 
 const MAX_FAMILIAR = Settings.FlaskWondrousPhysick.MALACHITE_FAMILIAR;
 export function malachiteSpawnEffect(player: EntityPlayer): EffectResult {
-  const playerID = getPlayerIndex(player);
   const { statsPlayer } = FOWPState.persistent;
+  const playerID = getPlayerIndex(player);
   const stats = statsPlayer[playerID];
 
   if (stats !== undefined) {
     const { malachite } = stats;
+
     if (malachite !== undefined) {
-      const malachitesNotDamaged = malachite.filter((m) => m.hp === 3);
-      let totalMalachites = MAX_FAMILIAR;
-      if (malachitesNotDamaged.length >= 0) {
-        stats.malachite = malachitesNotDamaged;
-        totalMalachites -= malachitesNotDamaged.length;
-      }
+      const totalMalachites = MAX_FAMILIAR - malachite.length;
 
       for (let i = 0; i < totalMalachites; i++) {
         Isaac.Spawn(

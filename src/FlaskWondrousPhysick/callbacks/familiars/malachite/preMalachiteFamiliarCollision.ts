@@ -21,7 +21,7 @@ export function preMalachiteFamiliarCollision(mod: Mod): void {
           // Isaac.ConsoleOutput(`${collider.EntityCollisionClass}\n`);
           const { malachite } = stats;
           const index = malachite?.findIndex(
-            (m) => m.seed === familiar.InitSeed,
+            (m) => m !== undefined && m.seed === familiar.InitSeed,
           );
 
           // Isaac.ConsoleOutput(`EntityCollisionClass: ${

@@ -19,7 +19,7 @@ export function postMalachiteFamiliarRender(mod: Mod): void {
 
           if (malachite !== undefined) {
             const spriteIndex = malachite.findIndex(
-              (m) => m.seed === familiar.InitSeed,
+              (m) => m !== undefined && m.seed === familiar.InitSeed,
             );
 
             sprite.SetFrame(spriteIndex);

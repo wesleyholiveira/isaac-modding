@@ -16,11 +16,14 @@ interface IFOWPState {
         fireMind: boolean;
         deadEye: boolean;
         malachite?:
-          | Array<{
-              hp: number;
-              seed: number;
-              offset: Vector;
-            }>
+          | Array<
+              | {
+                  hp: number;
+                  seed: number;
+                  offset: Vector;
+                }
+              | undefined
+            >
           | undefined;
         wispMalachite: boolean;
         items?: Array<{ index: number; trinket: number }> | undefined;

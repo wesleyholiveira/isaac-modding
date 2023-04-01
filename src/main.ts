@@ -9,7 +9,9 @@ function main() {
 
   const mod = RegisterMod(MOD_NAME, 1);
   const saveManager = new SaveDataManager();
+  // const client = new Client(mod);
 
   TrueIceBow(mod, saveManager);
   FlaskWondrousPhysick(mod, saveManager);
+  // client.register();
 }

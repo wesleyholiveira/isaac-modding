@@ -34,5 +34,5 @@ function main(player: EntityPlayer) {
   player.AddCacheFlags(CacheFlag.DAMAGE);
   player.AddCacheFlags(CacheFlag.FIRE_DELAY);
 
-  // FOWPState.persistent.playerID = playerID;
+  FOWPState.persistent.playerID = playerID;
 }

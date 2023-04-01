@@ -21,11 +21,13 @@ export function postCache(mod: Mod): void {
         }
 
         if (tearsUp > 0) {
-          const increaseValue = 0.5;
-          const newTearDelay = Calculus.fireRate2tearDelay(
-            Calculus.tearDelay2fireRate(player.MaxFireDelay) + increaseValue,
-          );
-          player.MaxFireDelay = newTearDelay;
+          if (cache === CacheFlag.FIRE_DELAY) {
+            const increaseValue = 0.5;
+            const newTearDelay = Calculus.fireRate2tearDelay(
+              Calculus.tearDelay2fireRate(player.MaxFireDelay) + increaseValue,
+            );
+            player.MaxFireDelay = newTearDelay;
+          }
         }
       }
     },

@@ -20,7 +20,9 @@ export function postMalachiteFamiliarUpdate(mod: Mod): void {
 
         if (stats !== undefined) {
           const { malachite } = stats;
-          const mala = malachite?.find((m) => m.seed === familiar.InitSeed);
+          const mala = malachite?.find(
+            (m) => m !== undefined && m.seed === familiar.InitSeed,
+          );
 
           familiar.OrbitSpeed = 0.05;
           familiar.OrbitDistance = Vector(25, 25).add(

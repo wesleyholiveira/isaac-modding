@@ -2,9 +2,30 @@
 
 isaac-modding is a mod for _[The Binding of Isaac: Repentance](https://store.steampowered.com/app/1426300/The_Binding_of_Isaac_Repentance/)_, written in [TypeScript](https://www.typescriptlang.org/) using the [IsaacScript](https://isaacscript.github.io/) framework.
 
-## How To Play
+# What's mods contains in this project?
+For now just two mods:
+- True Ice Bow (A bow based on league of legends)
+- Flask of Wondrouds Physick (A item based on Elden's Ring item)
 
-For normal people, you can play the mod by subscribing to it on [the Steam Workshop](https://steamcommunity.com/app/250900/workshop/). (Subscribing to the mod will automatically download and install it once you launch the game.)
+## True Ice Bow
+A rechargeable active item which fires a freezing tear in a cone (scales with tears).
+[X] Synergy with Bethany.
+[X] Works in coop.
+
+## Flask of Wondrous Physick
+An item which has 10 unique crystal tears (effects):
+
+- **Flame Cracked Tear**: adds the Fire Mind effect (rare drop)
+- **Strength Crystal Tear**: adds Isaac's damage (granted drop)
+- **Dexterity Crystal Tear**: adds Isaac's tears (granted drop)
+- **Crimson Crystal Tear**: restores one of Isaac's red heart containers (granted drop)
+- **Thorny Cracked Tear**: has an effect similar to Dead Eye's item (rare drop)
+- **Lightning Cracked Tear**: adds the Jacob's Ladder effect (rare drop)
+- **Malachite Shattered Tear**: spawns a custom familiar called "Malachite" (rare drop)
+- **Winged Crystal Tear**: adds an extra crystal tears slot (very rare drop)
+- **Holy Crystal Tear**: adds the temporary protection of Holy Mantle (almost granted drop)
+- **Cerulean Tear**: has a chance to drop a full or half soul heart (almost granted drop)
+- **Ruptured Tear**: BOOOOOM (almost granted drop)
 
 ### How To Compile
 

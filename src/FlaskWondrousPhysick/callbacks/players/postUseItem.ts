@@ -44,12 +44,10 @@ function main(
         }
 
         trinketIDs.slice(1).forEach(() => {
-          const familiar = player.AddWisp(
+          player.AddWisp(
             CollectibleTypeCustom.FLASK_OF_WONDROUS_PHYSICK,
             player.Position,
           );
-
-          familiar.GetData()["playerIndex"] = playerID;
         });
 
         if (lastPlayerID === undefined) {

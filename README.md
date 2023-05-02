@@ -9,8 +9,9 @@ For now just two mods:
 
 ## True Ice Bow
 A rechargeable active item which fires a freezing tear in a cone (scales with tears).
-[X] Synergy with Bethany.
-[X] Works in coop.
+
+[x] Synergy with Bethany.
+[x] Works in coop.
 
 ## Flask of Wondrous Physick
 An item which has 10 unique crystal tears (effects):
@@ -26,6 +27,9 @@ An item which has 10 unique crystal tears (effects):
 - **Holy Crystal Tear**: adds the temporary protection of Holy Mantle (almost granted drop)
 - **Cerulean Tear**: has a chance to drop a full or half soul heart (almost granted drop)
 - **Ruptured Tear**: BOOOOOM (almost granted drop)
+
+[x] Synergy with Bethany.
+[x] Works in coop.
 
 ### How To Compile
 
